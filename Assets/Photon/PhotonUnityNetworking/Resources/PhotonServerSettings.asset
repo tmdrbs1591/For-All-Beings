@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
+  m_Name: PhotonServerSettings
+  m_EditorClassIdentifier: 
+  AppSettings:
+    AppIdRealtime: 60f81be3-6018-449a-8f01-fb771087c668
+    AppIdFusion: 
+    AppIdChat: a4f1951e-59ba-4ed1-b984-47f10412443b
+    AppIdVoice: 566d08ad-2a53-4866-aec1-e9f09fee6e7b
+    AppVersion: 
+    UseNameServer: 1
+    FixedRegion: asia
+    Server: 
+    Port: 0
+    ProxyServer: 
+    Protocol: 0
+    EnableProtocolFallback: 1
+    AuthMode: 0
+    EnableLobbyStatistics: 0
+    NetworkLogging: 1
+  DevRegion: kr
+  PunLogging: 0
+  EnableSupportLogger: 0
+  RunInBackground: 1
+  StartInOfflineMode: 0
+  RpcList:
+  - CantHearYou
+  - ChangeColour
+  - ClickRpc
+  - DestroyRpc
+  - HeresWhy
+  - ActivateDashEffect
+  - ActivateSkillEffect
+  - ChatRPC
+  - Damage
+  - DestroyArrow
+  - DestroyFirePillar
+  - DestroySpaceship
+  - DisableAllChildren
+  - EventStart
+  - Fire
+  - MovePlayer
+  - MoveToNextStage
+  - PlayerAttackAnim
+  - PlayerTakeDamage
+  - RespawnSpaceship
+  - RPC_AttackBoxActive
+  - RPC_PlaySound
+  - RPC_RotateToClosestEnemy
+  - SetAttackPower
+  - SpawnDamageText
+  - SpawnGold
+  - StageIcon
+  - StartGameRPC
+  - SyncAcornDrop
+  - SyncAcornPickup
+  - SyncActivateNextChild
+  - SyncEffectState
+  - SyncEnemyPosition
+  - SyncSpellStart
+  - TakeDamage
+  - UpdatePlayerStats
+  - SetSpeakingSprite
+  - ActivateChatImage
+  - SetPortalPosition
+  - SetPortalState
+  - DecreaseMonsterCount
+  - IncreaseMonsterCount
+  - UpdateStageIcons
+  - SpawnPtc
+  - SyncCurrentSpawnMonsters
+  - IncrementTotalMonsters
+  - MonsterDied
+  - EventCheck
+  - SynchronizationHp
+  - UpdateText
+  - UpdateMonsterHp
+  - SyncStageData
+  - SyncTotalMonsters
+  - UpdateKillCount
+  - StatUp
+  - SetTimer
+  - IncreaseHealth
+  - AddItemToInventory
+  DisableAutoOpenWizard: 1
+  ShowSettings: 1
+  DevRegionSetOnce: 1
