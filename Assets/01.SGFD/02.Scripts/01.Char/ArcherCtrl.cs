@@ -389,12 +389,8 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
                 // 대쉬 이펙트 활성화 RPC 호출
                 PV.RPC("ActivateDashEffect", RpcTarget.All);
 
-                // 대쉬 방향으로 힘을 가합니다.
-                Vector3 dashDirection = transform.forward; // 캐릭터가 보는 방향으로 대쉬
-                rigid.AddForce(dashDirection * 1000, ForceMode.Impulse);
-
-                // 대쉬 지속시간 후에 상태 초기화
-                StartCoroutine(ResetDashState());
+                Vector3 dashPower = this.transform.forward * 20;
+                rigid.AddForce(dashPower, ForceMode.VelocityChange);
             }
         }
         else
@@ -402,7 +398,6 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
             dashCurTime -= Time.deltaTime;
         }
     }
-
     IEnumerator ResetDashState()
     {
         yield return new WaitForSeconds(0.5f); // 대쉬 이후 일정 시간이 지나면 상태를 초기화
