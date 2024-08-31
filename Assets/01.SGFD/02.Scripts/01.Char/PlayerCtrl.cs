@@ -399,11 +399,12 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
                 // 대쉬 이펙트 활성화 RPC 호출
                 PV.RPC("ActivateDashEffect", RpcTarget.All);
 
-                // 대쉬 속도 증가
-                playerStats.speed *= 4f;
+                // 대쉬 방향으로 힘을 가합니다.
+                Vector3 dashDirection = transform.forward; // 캐릭터가 보는 방향으로 대쉬
+                rigid.AddForce(dashDirection * 1000, ForceMode.Impulse);
 
-                // 대쉬 이펙트 지속시간 후에 대쉬 속도 복구 및 상태 초기화
-                StartCoroutine(DashOut());
+                // 대쉬 지속시간 후에 상태 초기화
+                StartCoroutine(ResetDashState());
             }
         }
         else
@@ -411,6 +412,13 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             dashCurTime -= Time.deltaTime;
         }
     }
+
+    IEnumerator ResetDashState()
+    {
+        yield return new WaitForSeconds(0.5f); // 대쉬 이후 일정 시간이 지나면 상태를 초기화
+                                               // 대쉬 후 속도를 원래대로 되돌리거나, 필요한 추가 처리를 할 수 있습니다.
+    }
+
 
     void Skill()
     {

@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IPunObservable
     private PhotonView PV;
     NavMeshAgent agent;
 
-    void Start()
+    protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
-    void Update()
+    protected virtual void Update()
     {
         if (playerObj == null)
         {
@@ -194,40 +194,6 @@ public class Enemy : MonoBehaviourPunCallbacks, IPunObservable
     void RPC_AttackBoxActive()
     {
         StartCoroutine(AttackBoxActive());
-    }
-
-    public void DangerMarkerShoot()
-    {
-        StartCoroutine(SpellStart());
-    }
-
-    IEnumerator SpellStart()
-    {
-        if (photonView.IsMine)
-        {
-            float angleStep = 360f / 36;
-
-            for (int i = 0; i < 36; i++)
-            {
-                Quaternion rotation = Quaternion.Euler(0f, angleStep * i, 0f); // 총알의 회전 각도 계산
-
-                GameObject bullet = Instantiate(bulletPrefab, transform.position, rotation); // 총알 생성
-                Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
-
-                // 총알의 방향과 속도 설정
-                Vector3 shootDirection = bullet.transform.forward;
-                bulletRigidbody.velocity = shootDirection * 10;
-
-                Destroy(bullet, 2f);
-
-                if (PhotonNetwork.IsConnected)
-                {
-                    photonView.RPC("SyncSpellStart", RpcTarget.Others, transform.position, rotation);
-                }
-
-                yield return new WaitForSeconds(0.2f); // 발사 간격 기다림
-            }
-        }
     }
 
     [PunRPC]

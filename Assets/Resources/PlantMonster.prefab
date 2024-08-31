@@ -1099,7 +1099,7 @@ GameObject:
   - component: {fileID: 7163908435575492275}
   - component: {fileID: 4025249294429568187}
   - component: {fileID: 3389279588961870800}
-  - component: {fileID: 7743237965898764374}
+  - component: {fileID: 2471127616727372850}
   - component: {fileID: 8558904276326529148}
   - component: {fileID: 7403476892909320163}
   - component: {fileID: 871347637086531497}
@@ -1179,7 +1179,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1903023, y: 1.6403553, z: 0.96972966}
   m_Center: {x: 0, y: 0.9528674, z: 0.050366707}
---- !u!114 &7743237965898764374
+--- !u!114 &2471127616727372850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1280,6 +1280,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: isAttack
+  - Type: 9
+    SynchronizeType: 0
+    Name: isDie
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
