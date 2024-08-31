@@ -140,6 +140,8 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 25);
             transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 25);
         }
+        PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+
     }
 
     void GetInput()
@@ -312,27 +314,24 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
     {
         playerStats.attackPower = newAttackPower;
     }
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // 동기화할 데이터를 작성합니다.
         if (stream.IsWriting)
         {
-            // 데이터를 다른 클라이언트에게 보냅니다.
             stream.SendNext(playerStats.attackPower);
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(playerStats.curHp);
+            stream.SendNext(playerStats.curHp); // 체력 전송
         }
         else
         {
-            // 데이터를 다른 클라이언트로부터 수신합니다.
             playerStats.attackPower = (float)stream.ReceiveNext();
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
-            playerStats.curHp = (float)stream.ReceiveNext();
+            playerStats.curHp = (float)stream.ReceiveNext(); // 체력 수신
         }
     }
+
 
     [PunRPC]
     void SpawnDamageText(Vector3 position, float damage)
@@ -375,7 +374,11 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
         playerStats.curHp -= damage;
         hpBar.value = playerStats.curHp / playerStats.maxHp; // HP 바 업데이트
     }
-
+    [PunRPC]
+    void SynchronizationHp()
+    {
+        hpBar.value = playerStats.curHp / playerStats.maxHp; // HP 바 업데이트
+    }
     void Dash()
     {
         if (dashCurTime <= 0)

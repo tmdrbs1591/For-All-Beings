@@ -95,4 +95,9 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             xp = (float)stream.ReceiveNext();
         }
     }
+    [PunRPC]
+    public void TakeDamage(int damage)
+    {
+        curHp -= damage;
+    }
 }
