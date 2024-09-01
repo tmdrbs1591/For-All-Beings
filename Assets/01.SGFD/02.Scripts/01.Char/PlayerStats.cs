@@ -26,6 +26,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [SerializeField] Slider xpSlider;
     [SerializeField] TMP_Text levelText;
     [SerializeField] TMP_Text xpText;
+    [SerializeField] GameObject hitPanel;
 
     private PhotonView photonView;
 
@@ -99,5 +100,15 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     public void TakeDamage(int damage)
     {
         curHp -= damage;
+        StartCoroutine(HitPanelCor());
+    }
+    public IEnumerator HitPanelCor()
+    {
+
+        CameraShake.instance.Shake();
+        hitPanel.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        hitPanel.SetActive(false);
+
     }
 }

@@ -31,6 +31,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
 
 
+
     [Header("ÄðÅ¸ÀÓ")]
     private float attacklCurTime;
  
@@ -379,7 +380,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     void PlayerTakeDamage(float damage)
     {
         playerStats.curHp -= damage;
-    
+        StartCoroutine(playerStats.HitPanelCor());
     }
     [PunRPC]
     void SynchronizationHp()
@@ -542,5 +543,5 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(attackBoxPos.position, attackBoxSize);
     }
-
+   
 }

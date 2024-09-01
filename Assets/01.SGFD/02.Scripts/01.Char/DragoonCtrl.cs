@@ -358,6 +358,8 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
     {
         playerStats.curHp -= damage;
         hpBar.value = playerStats.curHp / playerStats.maxHp; // HP 바 업데이트
+        StartCoroutine(playerStats.HitPanelCor());
+
     }
 
     [PunRPC]
