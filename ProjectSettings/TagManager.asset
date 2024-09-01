@@ -17,6 +17,7 @@ TagManager:
   - Basket
   - Flag
   - Ostrich
+  - Canvas
   layers:
   - Default
   - TransparentFX

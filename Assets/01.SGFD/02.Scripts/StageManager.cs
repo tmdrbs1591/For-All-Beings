@@ -88,6 +88,11 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private float bossHpUp = 0;
     [SerializeField] private float bossAttackUp = 0;
 
+    [Header("Camera")]
+    [SerializeField] private GameObject playerCamera;
+    [SerializeField] private GameObject cutSceneCamera;
+
+
     private void Awake()
     {
         if (instance == null)
@@ -147,12 +152,14 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                 targetPosition = shopPosition[shopIndex];
             }
             // 10, 20, 30, 40, 50 스테이지일 때는 BossPosition으로 이동
-            else if (currentStage > 0 && currentStage % 10 == 0)
+            else if (currentStage == 1)
             {
                 Debug.Log("보스 스테이지 입장합니다. 현재 스테이지 : " + currentStage);
                 int bossIndex = Random.Range(0, bossPosition.Count);
                 int bossMonsterIndex = Random.Range(0, bossMonsters.Count);
                 targetPosition = bossPosition[bossIndex].spawnPos;
+
+                photonView.RPC("CutSceneCamera", RpcTarget.All);
 
                 // 포탈 위치와 상태 설정을 Co_PortalSet 코루틴으로 대체
                 StartCoroutine(Co_PortalSet(false, bossPosition[bossIndex].portalPos));
@@ -488,5 +495,41 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         killCount = newKillCount;
         totalMonstersText.text = "남은 몬스터 수 : " + (totalMonsters - killCount);
+    }
+    [PunRPC]
+    void CutSceneCamera()
+    {
+        StartCoroutine(CutSceneCameraCor());
+    }
+    IEnumerator CutSceneCameraCor()
+    {
+        yield return new WaitForSeconds(2f);
+
+
+        // Canvas 태그를 가진 모든 객체를 가져옵니다
+        GameObject[] canvases = GameObject.FindGameObjectsWithTag("Canvas");
+
+        // 모든 Canvas 객체를 비활성화합니다
+        foreach (GameObject canvas in canvases)
+        {
+            canvas.SetActive(false);
+        }
+
+        // 카메라 전환
+        playerCamera.SetActive(false);
+        cutSceneCamera.SetActive(true);
+
+        // 6초 대기
+        yield return new WaitForSeconds(8f);
+
+        // 카메라 원상 복구
+        playerCamera.SetActive(true);
+        cutSceneCamera.SetActive(false);
+
+        // 모든 Canvas 객체를 다시 활성화합니다
+        foreach (GameObject canvas in canvases)
+        {
+            canvas.SetActive(true);
+        }
     }
 }

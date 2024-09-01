@@ -8239,7 +8239,7 @@ GameObject:
   - component: {fileID: 7165296545455893366}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17908,7 +17908,7 @@ GameObject:
   - component: {fileID: 8314354596714593575}
   m_Layer: 5
   m_Name: CanvasUI
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20657,32 +20657,32 @@ PrefabInstance:
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 160
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9083628222859036639, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}

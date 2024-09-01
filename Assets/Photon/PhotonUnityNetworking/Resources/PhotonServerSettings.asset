@@ -94,6 +94,8 @@ MonoBehaviour:
   - AddItemToInventory
   - MessagePanel
   - SpawnMeteo
+  - utSceneCamera
+  - CutSceneCamera
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
