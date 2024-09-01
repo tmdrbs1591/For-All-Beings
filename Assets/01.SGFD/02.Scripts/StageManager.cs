@@ -159,7 +159,12 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                 int bossMonsterIndex = Random.Range(0, bossMonsters.Count);
                 targetPosition = bossPosition[bossIndex].spawnPos;
 
-                photonView.RPC("CutSceneCamera", RpcTarget.All);
+
+
+                photonView.RPC("CutSceneCamera", RpcTarget.All); // 컷씬 시작
+
+                SongManager.instance.BossSongPlay();// 보스 노래로
+
 
                 // 포탈 위치와 상태 설정을 Co_PortalSet 코루틴으로 대체
                 StartCoroutine(Co_PortalSet(false, bossPosition[bossIndex].portalPos));

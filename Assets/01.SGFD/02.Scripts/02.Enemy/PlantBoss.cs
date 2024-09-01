@@ -35,4 +35,9 @@ public class PlantBoss : MonoBehaviour
         yield return new WaitForSeconds(2f);
         effect.SetActive(true);
     }
+
+    private void OnDestroy()
+    {
+        SongManager.instance.InGameSongPlay();
+    }
 }
