@@ -10,6 +10,7 @@ public class PlantBoss : MonoBehaviour
     private bool isFiring = false; // 발사를 시작했는지 여부를 나타내는 변수
 
     private NavMeshAgent agent; // 보스의 NavMeshAgent 컴포넌트
+    public BoxCollider boxCollider; // 보스의 BoxCollider 컴포넌트
 
     public GameObject effect;
     [SerializeField] GameObject bulletPrefabs;
@@ -20,8 +21,11 @@ public class PlantBoss : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>(); // NavMeshAgent 컴포넌트 가져오기
         enemyScript = GetComponent<Enemy>(); // Enemy 스크립트를 가져옵니다
+
+        boxCollider.enabled = false;
         enemyScript.enabled = false; // 처음에는 Enemy 스크립트를 비활성화합니다
 
+        boxCollider = GetComponent<BoxCollider>(); // BoxCollider 컴포넌트 가져오기
         StartCoroutine(EffectOn());
         StartCoroutine(DelayPatternStart()); // 5초 후에 패턴 시작
     }
@@ -44,6 +48,7 @@ public class PlantBoss : MonoBehaviour
         if (timer >= 10f && !isTracking) // 10초가 지나면 Enemy 스크립트를 활성화합니다
         {
             enemyScript.enabled = true;
+            boxCollider.enabled = true;
             isTracking = true; // 추적이 시작되었음을 표시합니다
         }
     }
@@ -116,7 +121,7 @@ public class PlantBoss : MonoBehaviour
 
 
         Debug.Log("asdasd");
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
         {
             Quaternion rotation = Quaternion.Euler(0f, angleStep * i, 0f); // 총알의 회전 각도 계산
 

@@ -428,6 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82fda3f96c0747b4681b858f1149284d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boxCollider: {fileID: 6766535868480631760}
   effect: {fileID: 1146250131921969354}
   bulletPrefabs: {fileID: 8030381253335092062, guid: ce40cc5c71883ca4fa2de97daad9fc59,
     type: 3}
