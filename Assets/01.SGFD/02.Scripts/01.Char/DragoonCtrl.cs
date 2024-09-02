@@ -115,7 +115,8 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
     {
 
         if (!PV.IsMine) return;
-
+        if (playerStats.isDie)
+            return;
         GetInput();
         Move();
         Jump();

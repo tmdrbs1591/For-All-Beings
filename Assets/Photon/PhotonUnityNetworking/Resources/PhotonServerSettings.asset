@@ -96,6 +96,7 @@ MonoBehaviour:
   - SpawnMeteo
   - utSceneCamera
   - CutSceneCamera
+  - Die
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

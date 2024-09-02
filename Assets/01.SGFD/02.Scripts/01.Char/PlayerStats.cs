@@ -28,7 +28,13 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [SerializeField] TMP_Text xpText;
     [SerializeField] GameObject hitPanel;
 
+    [SerializeField] GameObject originalMesh;
+    [SerializeField] GameObject stoneGraveMesh;
+
+
     private PhotonView photonView;
+
+    [SerializeField] public bool isDie;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +49,21 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
         xpSlider.value = Mathf.Lerp(xpSlider.value, currentXp / xp, Time.deltaTime * 40f);
         levelText.text = "LV." + playerLevel.ToString();
         xpText.text = currentXp + "/" + xp;
+
+        photonView.RPC("Die", RpcTarget.AllBuffered);
+        
+    }
+
+    [PunRPC]
+    void Die()
+    {
+        if (curHp <= 0)
+        {
+            isDie = true;
+            originalMesh.SetActive(false);
+            stoneGraveMesh.SetActive(true);
+
+        }
     }
 
     public void Player_XP()

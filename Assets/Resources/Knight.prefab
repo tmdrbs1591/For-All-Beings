@@ -9977,7 +9977,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4759945382701104103}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.50143963, y: -0.48268312, z: -0.51230603, w: 0.5031081}
+  m_LocalRotation: {x: 0.5014397, y: -0.48268315, z: -0.5123061, w: 0.50310814}
   m_LocalPosition: {x: 0.0011727357, y: 0.34101325, z: -0.044104505}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9986,7 +9986,7 @@ Transform:
   - {fileID: 8556108835472409305}
   - {fileID: 1608719486867564539}
   - {fileID: 6451612950742224379}
-  m_Father: {fileID: 8133346597014770548}
+  m_Father: {fileID: 1614469587351990792}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4810903842963993348
 GameObject:
@@ -14988,10 +14988,10 @@ Transform:
   - {fileID: 8605249884409897303}
   - {fileID: 3488087097103745891}
   - {fileID: 1614469587351990792}
-  - {fileID: 6462986332914950174}
   - {fileID: 8070715248325524439}
   - {fileID: 3017718319661873600}
   - {fileID: 2904382061218604405}
+  - {fileID: 5063823994410944679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1600532711286957502
@@ -15118,8 +15118,8 @@ MonoBehaviour:
   speed: 6
   attackCoolTime: 0.25
   attackPower: 10
-  maxHp: 40
-  curHp: 40
+  maxHp: 5
+  curHp: 5
   skillCoolTime: 20
   uiLevelUp: {fileID: 7018734036294821705}
   playerLevel: 1
@@ -15129,6 +15129,9 @@ MonoBehaviour:
   levelText: {fileID: 9203624979372359762}
   xpText: {fileID: 7302902373118525746}
   hitPanel: {fileID: 1126271640574266763}
+  originalMesh: {fileID: 9055557236096037075}
+  stoneGraveMesh: {fileID: 5552236557609898525}
+  isDie: 0
 --- !u!114 &3941120395239933755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18709,6 +18712,7 @@ Transform:
   - {fileID: 9137570269576337219}
   - {fileID: 6742125749495347240}
   - {fileID: 2413860774441595045}
+  - {fileID: 6462986332914950174}
   m_Father: {fileID: 8133346597014770548}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9056982974890072010
@@ -21156,6 +21160,106 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4617582033220906, guid: bf9f848a24682054e9fddc30f1184e46,
     type: 3}
   m_PrefabInstance: {fileID: 4930906627141422920}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5146904361613243758
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8133346597014770548}
+    m_Modifications:
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.015384615
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.015384614
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.015384614
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.019
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6582938
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7527612
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -97.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 747874083497781107, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_Name
+      value: GraveStone
+      objectReference: {fileID: 0}
+    - target: {fileID: 747874083497781107, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5d65f7a3f8bec1840b93e49840472ed6, type: 3}
+--- !u!4 &5063823994410944679 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 84208471539154377, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5146904361613243758}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5552236557609898525 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 747874083497781107, guid: 5d65f7a3f8bec1840b93e49840472ed6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5146904361613243758}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5198783047550150778
 PrefabInstance:
