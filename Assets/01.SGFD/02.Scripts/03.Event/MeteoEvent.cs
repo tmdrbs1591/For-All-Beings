@@ -14,6 +14,8 @@ public class MeteoEvent : MonoBehaviourPun
     private int maxMeteos = 20; // 최대 스폰 개수
     private int spawnedMeteos = 0; // 현재 스폰된 메테오 개수
 
+    public bool eventClear;
+
     // Update is called once per frame
     void Update()
     {
@@ -23,11 +25,13 @@ public class MeteoEvent : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     public void EventStart()
     {
         // 메테오 개수 초기화
         spawnedMeteos = 0;
 
+        eventClear = false;
         // 메시지 패널과 메테오 스폰 코루틴 호출
         photonView.RPC("MessagePanel", RpcTarget.All);
         StartCoroutine(SpawnMeteos()); // 코루틴 시작
@@ -77,6 +81,8 @@ public class MeteoEvent : MonoBehaviourPun
 
     void EventClear()
     {
+        eventClear = true;
+        StageManager.instance.photonView.RPC("EventCheck", RpcTarget.All);
         AudioManager.instance.PlaySound(transform.position, 8, Random.Range(1f, 1f), 1f);
         SpawnGold();
 

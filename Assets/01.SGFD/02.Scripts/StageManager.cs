@@ -55,6 +55,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
     public AcornEvent arconEvent;
     public OstrichEvent ostrichEvent;
     public Flag flag;
+    public MeteoEvent meteoEvent;
     [SerializeField] private bool isEvent;
 
     [Header("Monster")]
@@ -152,7 +153,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                 targetPosition = shopPosition[shopIndex];
             }
             // 10, 20, 30, 40, 50 스테이지일 때는 BossPosition으로 이동
-            else if (currentStage == 1)
+            else if (currentStage  > 0 && currentStage % 10 == 0)
             {
                 Debug.Log("보스 스테이지 입장합니다. 현재 스테이지 : " + currentStage);
                 int bossIndex = Random.Range(0, bossPosition.Count);
@@ -457,11 +458,12 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            if (flag.isClear || arconEvent.isEventEnd)
+            if (flag.isClear || arconEvent.isEventEnd || meteoEvent.eventClear)
             {
                 photonView.RPC("SetPortalState", RpcTarget.All, true);
                 flag.isClear = false;
                 arconEvent.isEventEnd = false;
+                meteoEvent.eventClear = false;
             }
         }
     }
@@ -476,6 +478,10 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
         else if (eventStage == 1)
         {
             ostrichEvent.photonView.RPC("EventStart", RpcTarget.All);
+        }
+        else if(eventStage == 2)
+        {
+            meteoEvent.photonView.RPC("EventStart", RpcTarget.All);
         }
     }
 

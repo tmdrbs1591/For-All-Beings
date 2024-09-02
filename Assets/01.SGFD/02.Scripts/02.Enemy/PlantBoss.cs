@@ -94,6 +94,8 @@ public class PlantBoss : MonoBehaviour
         // 총알 생성
         GameObject bullet = Instantiate(bulletPrefabs, transform.position, Quaternion.identity);
         bullet.transform.rotation = Quaternion.LookRotation(transform.forward);
+        SingleAudioManager.instance.PlaySound(transform.position, 11, UnityEngine.Random.Range(1f, 1.7f), 1f);
+
 
         // 보스의 NavMeshAgent를 다시 활성화
         agent.isStopped = false;
@@ -127,6 +129,8 @@ public class PlantBoss : MonoBehaviour
 
             GameObject bullet = Instantiate(bulletPrefabs, transform.position, rotation); // 총알 생성
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
+
+            SingleAudioManager.instance.PlaySound(transform.position, 11, UnityEngine.Random.Range(1f, 1.7f), 0.4f);
 
             // 총알의 방향과 속도 설정
             Vector3 shootDirection = bullet.transform.forward;
