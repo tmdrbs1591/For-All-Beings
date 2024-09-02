@@ -30,6 +30,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
 
     [SerializeField] GameObject originalMesh;
     [SerializeField] GameObject stoneGraveMesh;
+    [SerializeField] GameObject diePanel;
 
 
     private PhotonView photonView;
@@ -62,7 +63,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             isDie = true;
             originalMesh.SetActive(false);
             stoneGraveMesh.SetActive(true);
-
+            diePanel.SetActive(true);
         }
     }
 
@@ -120,8 +121,10 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void TakeDamage(int damage)
     {
+        if (!isDie) { 
         curHp -= damage;
         StartCoroutine(HitPanelCor());
+        }
     }
     public IEnumerator HitPanelCor()
     {
