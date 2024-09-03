@@ -44177,7 +44177,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9.023037, y: 20.967503, z: 9.023037}
+  m_Size: {x: 6.9931264, y: 16.250448, z: 6.9931264}
   m_Center: {x: 0, y: 5.972228, z: 0}
 --- !u!114 &4438013077975038392
 MonoBehaviour:
