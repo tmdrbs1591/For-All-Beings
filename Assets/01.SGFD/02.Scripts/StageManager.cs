@@ -5,6 +5,7 @@ using TMPro;
 using Photon.Pun;
 using UnityEngine.UI;
 using Photon.Pun.Demo.Cockpit.Forms;
+using UnityEngine.Experimental.GlobalIllumination;
 
 [System.Serializable]
 public class StageInfo
@@ -35,6 +36,13 @@ public class EventStageInfo
     public Transform PortalPos;
 }
 
+[System.Serializable]
+public class MonsterInfo
+{
+    public int spawnStage;
+    public GameObject monsterPrefab;
+}
+
 public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static StageManager instance;
@@ -59,7 +67,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private bool isEvent;
 
     [Header("Monster")]
-    public GameObject[] monsterPrefab;
+    [SerializeField] private List<MonsterInfo> monsterInfos = new List<MonsterInfo>();
     private List<GameObject> currentSpawnMonsters = new List<GameObject>();
     private int killCount = 0;
     private int totalMonsters = 0;
@@ -121,15 +129,15 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             // 마스터 클라이언트에서만 스테이지 변경 로직을 수행
-            if (currentStage == 10)
-            {
-                currentStageMonsterListLength++;
+            //if (currentStage == 10)
+            //{
+            //    currentStageMonsterListLength++;
 
-                if (currentStageMonsterListLength > monsterPrefab.Length)
-                {
-                    currentStageMonsterListLength = monsterPrefab.Length;
-                }
-            }
+            //    if (currentStageMonsterListLength > monsterInfos.Length)
+            //    {
+            //        currentStageMonsterListLength = monsterInfos.Length;
+            //    }
+            //}
 
             // 스테이지 증가
             currentStage++;
@@ -207,11 +215,20 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                     targetPosition = stageInfos[randomIndex].spawnPos;
 
                     int monsterIndex;
+                    List<GameObject> monsterPrefabs = new List<GameObject>();
+
+                    foreach(var obj in monsterInfos)
+                    {
+                        if(obj.spawnStage <= currentStage)
+                        {
+                            monsterPrefabs.Add(obj.monsterPrefab);
+                        }
+                    }
 
                     foreach (Transform t in stageInfos[randomIndex].monsterSpawnPos)
                     {
-                        monsterIndex = Random.Range(0, currentStageMonsterListLength);
-                        GameObject monster = PhotonNetwork.Instantiate(monsterPrefab[monsterIndex].name, t.position, t.rotation);
+                        monsterIndex = Random.Range(0, monsterPrefabs.Count);
+                        GameObject monster = PhotonNetwork.Instantiate(monsterPrefabs[monsterIndex].name, t.position, t.rotation);
                         monster.GetComponent<Enemy>().photonView.RPC("StatUp", RpcTarget.All, hpUp * currentStage, attackUp * currentStage);
                         currentSpawnMonsters.Add(monster);
                         totalMonsters++; // 몬스터 수 증가
