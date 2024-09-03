@@ -98,6 +98,8 @@ MonoBehaviour:
   - CutSceneCamera
   - Die
   - ReSpawn
+  - SetReSpawnBarActive
+  - SpawnRespawnValue
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
