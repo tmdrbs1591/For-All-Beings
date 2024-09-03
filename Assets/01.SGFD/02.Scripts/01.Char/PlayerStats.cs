@@ -32,6 +32,10 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [SerializeField] GameObject stoneGraveMesh;
     [SerializeField] GameObject diePanel;
 
+    [SerializeField] public Slider reSpawnBar;
+
+    private float keyPressTime = 0f;
+    private const float requiredHoldTime = 3f;
 
     private PhotonView photonView;
 
@@ -52,7 +56,9 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
         xpText.text = currentXp + "/" + xp;
 
         photonView.RPC("Die", RpcTarget.AllBuffered);
-        
+
+        reSpawnBar.value = keyPressTime / requiredHoldTime;
+
     }
 
     [PunRPC]
@@ -64,6 +70,18 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             originalMesh.SetActive(false);
             stoneGraveMesh.SetActive(true);
             diePanel.SetActive(true);
+        }
+    }
+    [PunRPC]
+   public void ReSpawn()
+    {
+        if (curHp <= 0)
+        {
+            isDie = false;
+            originalMesh.SetActive(true);
+            stoneGraveMesh.SetActive(false);
+            diePanel.SetActive(false);
+            curHp = 10;
         }
     }
 
@@ -135,4 +153,62 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
         hitPanel.SetActive(false);
 
     }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (Input.GetKey(KeyCode.C))
+            {
+                var playerStats = collision.gameObject.GetComponent<PlayerStats>();
+                if (playerStats != null)
+                {
+                    // 슬라이더를 활성화하고 네트워크를 통해 상태를 동기화
+                    playerStats.photonView.RPC("SetReSpawnBarActive", RpcTarget.All, true);
+
+                    keyPressTime += Time.deltaTime; // "C" 키가 눌릴 때마다 타이머 증가
+
+                    // 타이머가 3초 이상 되면 ReSpawn 메서드를 호출
+                    if (keyPressTime >= requiredHoldTime)
+                    {
+                        playerStats.photonView.RPC("ReSpawn", RpcTarget.All);
+                        keyPressTime = 0f; // 액션 수행 후 타이머 초기화
+                    }
+                }
+            }
+            else
+            {
+                // "C" 키가 놓이면 타이머를 초기화
+                keyPressTime = 0f;
+                var playerStats = collision.gameObject.GetComponent<PlayerStats>();
+                if (playerStats != null)
+                {
+                    // 슬라이더를 비활성화하고 네트워크를 통해 상태를 동기화
+                    playerStats.photonView.RPC("SetReSpawnBarActive", RpcTarget.All, false);
+                }
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var playerStats = collision.gameObject.GetComponent<PlayerStats>();
+            if (playerStats != null)
+            {
+                // 슬라이더를 비활성화하고 네트워크를 통해 상태를 동기화
+                playerStats.photonView.RPC("SetReSpawnBarActive", RpcTarget.All, false);
+            }
+            keyPressTime = 0f; // 타이머를 초기화
+        }
+    }
+
+    [PunRPC]
+    public void SetReSpawnBarActive(bool isActive)
+    {
+        reSpawnBar.gameObject.SetActive(isActive);
+    }
+
+
+
 }
