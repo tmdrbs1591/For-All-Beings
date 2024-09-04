@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] string Enemytype;
     [SerializeField] public float currentHP;
-    [SerializeField] float maxHP;
+    [SerializeField] public  float maxHP;
     [SerializeField] float attackRange;
     [SerializeField] float attackDamage;
     [SerializeField] float maxAttackSpeed;

@@ -96,7 +96,10 @@ MonoBehaviour:
   - SpawnMeteo
   - utSceneCamera
   - CutSceneCamera
-  - Ultimate
+  - Die
+  - ReSpawn
+  - SetReSpawnBarActive
+  - SpawnRespawnValue
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

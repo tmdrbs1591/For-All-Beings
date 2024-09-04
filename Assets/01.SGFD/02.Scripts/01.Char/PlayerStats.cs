@@ -28,7 +28,18 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [SerializeField] TMP_Text xpText;
     [SerializeField] GameObject hitPanel;
 
+    [SerializeField] GameObject originalMesh;
+    [SerializeField] GameObject stoneGraveMesh;
+    [SerializeField] GameObject diePanel;
+
+    [SerializeField] public Slider reSpawnBar;
+
+    private float keyPressTime = 0f;
+    private  float requiredHoldTime = 3f;
+
     private PhotonView photonView;
+
+    [SerializeField] public bool isDie;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +54,34 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
         xpSlider.value = Mathf.Lerp(xpSlider.value, currentXp / xp, Time.deltaTime * 40f);
         levelText.text = "LV." + playerLevel.ToString();
         xpText.text = currentXp + "/" + xp;
+
+        photonView.RPC("Die", RpcTarget.AllBuffered);
+
+       reSpawnBar.value = keyPressTime / requiredHoldTime;
+    }
+
+    [PunRPC]
+    void Die()
+    {
+        if (curHp <= 0)
+        {
+            isDie = true;
+            originalMesh.SetActive(false);
+            stoneGraveMesh.SetActive(true);
+            diePanel.SetActive(true);
+        }
+    }
+    [PunRPC]
+   public void ReSpawn()
+    {
+        if (curHp <= 0)
+        {
+            isDie = false;
+            originalMesh.SetActive(true);
+            stoneGraveMesh.SetActive(false);
+            diePanel.SetActive(false);
+            curHp = 10;
+        }
     }
 
     public void Player_XP()
@@ -99,8 +138,10 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void TakeDamage(int damage)
     {
+        if (!isDie) { 
         curHp -= damage;
         StartCoroutine(HitPanelCor());
+        }
     }
     public IEnumerator HitPanelCor()
     {
@@ -111,4 +152,45 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
         hitPanel.SetActive(false);
 
     }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") )
+        {
+            var playerStats = collision.gameObject.GetComponent<PlayerStats>();
+
+         
+                if (Input.GetKey(KeyCode.C))
+                {
+                    playerStats.reSpawnBar.gameObject.SetActive(true);
+                    keyPressTime += Time.deltaTime; // "C" 키가 눌릴 때마다 타이머 증가\
+
+
+                    // 타이머가 3초 이상 되면 PerformAction 메서드를 호출
+                    if (keyPressTime >= requiredHoldTime)
+                    {
+                        playerStats.photonView.RPC("ReSpawn", RpcTarget.All);
+                        keyPressTime = 0f; // 액션 수행 후 타이머 초기화
+                    }
+                }
+                else
+                {
+                    // "C" 키가 놓이면 타이머를 초기화
+                    keyPressTime = 0f;
+                }
+            
+        }
+    }
+  
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var playerStats = collision.gameObject.GetComponent<PlayerStats>();
+            playerStats.reSpawnBar.gameObject.SetActive(false);
+            keyPressTime = 0f; // 타이머를 초기화
+        }
+    }
+
+
+
 }

@@ -107,7 +107,8 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
     protected void Update()
     {
         if (!PV.IsMine) return;
-
+        if (playerStats.isDie)
+            return;
         GetInput();
         Move();
         Jump();

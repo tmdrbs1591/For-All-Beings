@@ -126,7 +126,8 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     {
 
         if (!PV.IsMine) return;
-
+        if (playerStats.isDie)
+            return;
         GetInput();
         Move();
         Attack();
