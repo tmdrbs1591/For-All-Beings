@@ -308,6 +308,11 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
                 if (enemyPhotonView != null && enemyPhotonView.IsMine)
                 {
                     enemyPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, damage);
+
+                    if (!isNeverDie)
+                    playerStats.currentUltimategauge++;
+
+
                     enemyScript.playerObj = this.gameObject;
                     PV.RPC("SpawnDamageText", RpcTarget.AllBuffered, enemyScript.transform.position, damage);
                     PhotonNetwork.Instantiate("HitPtc", collider.transform.position + new Vector3(0, 0.3f, 0), Quaternion.identity);
@@ -575,6 +580,8 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
             AudioManager.instance.PlaySound(transform.position, 12, Random.Range(1f, 1f), 1f);
 
+            StartCoroutine(ObjectSetActive(SkillPanel, 1.8f));// 스킬 패널 활성화
+
             isNeverDie = true;
             playerStats.currentUltimategauge = 0;
             StartCoroutine(UltimateCamera());
@@ -591,12 +598,13 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     {
      
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         ultimatePtc.SetActive(true);
         var originalAttackBoxSize = attackBoxSize;
 
         attackBoxSize = new Vector3(5, 5, 6); // 어택박스 크기 키우기
 
+      
         playerStats.originalMesh.SetActive(false); // 모습 없애기 
         for (int i = 0; i < 30; i++)
         {
