@@ -26,6 +26,7 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
 
     [SerializeField] private Transform attackPos;
+    [SerializeField] Transform ultimatePos;
 
     [Header("쿨타임")]
     private float attacklCurTime;
@@ -46,6 +47,9 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [Header("사운드")]
     [SerializeField] private AudioSource wakkAudioSource;
 
+    [Header("카메라")]
+    [SerializeField] Camera playerCamera;
+    [SerializeField] Camera ultimateCutSceneCamera;
     [SerializeField] Camera MiniMapCamera;
 
 
@@ -57,6 +61,9 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
     bool isDash;
     bool isStop;
     bool isSkill;
+
+    public bool isNeverDie;
+
 
     Animator anim; // 애니메이터 컴포넌트
 
@@ -78,6 +85,7 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
         anim = GetComponent<Animator>();
         playerStats.curHp = playerStats.maxHp;
 
+        playerCamera = Camera.main;
 
 
         if (!photonView.IsMine)
@@ -135,6 +143,11 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UltimateStart();
+        }
+
         if (!PV.IsMine)
         {
             // 다른 클라이언트에서 보간하여 위치와 회전을 조정
@@ -154,7 +167,7 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
     void Move()
     {
-        if (isStop || isSkill) // 공격이나 스킬 중엔 못 움직이게
+        if (isStop || isSkill || isNeverDie) // 공격이나 스킬 중엔 못 움직이게
             return;
 
         Vector3 moveVec = new Vector3(hAxis, 0, vAxis).normalized;
@@ -223,14 +236,14 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
                 StartCoroutine(IsStop(0.2f));
                 Vector3 fireDirection = transform.forward; // 캐릭터가 바라보는 방향
-                GameObject arrowObj = PhotonNetwork.Instantiate("Arrow", attackPos.transform.position + new Vector3(0,0.5f,0)+ fireDirection * 1.5f, Quaternion.LookRotation(fireDirection));
+                GameObject arrowObj = PhotonNetwork.Instantiate("Arrow", attackPos.transform.position + new Vector3(0, 0.5f, 0) + fireDirection * 1.5f, Quaternion.LookRotation(fireDirection));
                 Arrow arrow = arrowObj.GetComponent<Arrow>();
-              
+
                 if (arrow != null)
                 {
                     arrow.SetDirection(fireDirection); // 화살의 방향 설정
                     arrow._damage = playerStats.attackPower; // 화살의 파워 설정
-                    arrow.archerctrl = gameObject.GetComponent<ArcherCtrl>(); 
+                    arrow.archerctrl = gameObject.GetComponent<ArcherCtrl>();
                 }
                 AudioManager.instance.PlaySound(transform.position, 4, Random.Range(1f, 0.9f), 0.4f);
                 PV.RPC("Damage", RpcTarget.All, playerStats.attackPower);
@@ -372,6 +385,10 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void PlayerTakeDamage(float damage)
     {
+
+        if (isNeverDie)
+            return;
+
         playerStats.curHp -= damage;
         hpBar.value = playerStats.curHp / playerStats.maxHp; // HP 바 업데이트
         StartCoroutine(playerStats.HitPanelCor());
@@ -452,8 +469,8 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
             SkillArrow arrow = arrowObj.GetComponent<SkillArrow>();
             if (arrow != null)
             {
-               arrow.SetDirection(fireDirection); // 화살의 방향 설정
-               arrow._damage = playerStats.attackPower; ; // 화살의 파워 설정
+                arrow.SetDirection(fireDirection); // 화살의 방향 설정
+                arrow._damage = playerStats.attackPower; ; // 화살의 파워 설정
             }
             CameraShake.instance.Shake();
             anim.SetTrigger("isAttack1");
@@ -593,5 +610,61 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
         Quaternion targetRotation = Quaternion.LookRotation(directionToEnemy);
         transform.rotation = targetRotation;
     }
- 
+
+    void UltimateStart()
+    {
+        if (playerStats.currentUltimategauge >= playerStats.maxUltimategauge)
+        {
+            StartCoroutine(UltimateCamera());
+
+            playerStats.currentUltimategauge = 0;
+
+        }
+    }
+
+    IEnumerator UltimateCor()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        
+
+
+        StartCoroutine(IsStop(0.2f));
+        Vector3 fireDirection = transform.forward; // 캐릭터가 바라보는 방향
+        GameObject ultimateArrow = PhotonNetwork.Instantiate("ArcherUltimateArrow", ultimatePos.transform.position + new Vector3(0, 0.5f, 0) + fireDirection * 1.5f, Quaternion.LookRotation(fireDirection));
+        var ultimateArrowScript = ultimateArrow.GetComponent<ArcherUltimateArrow>();
+
+        if (ultimateArrowScript != null)
+        {
+            ultimateArrowScript._damage = playerStats.attackPower; // 화살의 파워 설정
+        }
+        AudioManager.instance.PlaySound(transform.position, 4, Random.Range(1f, 0.9f), 0.4f);
+        attacklCurTime = playerStats.attackCoolTime;
+        PV.RPC("PlayerAttackAnim", RpcTarget.AllBuffered, 1);
+
+
+    }
+
+    IEnumerator UltimateCamera()
+    {
+
+        AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1.2f, 1.2f), 1f);
+        AudioManager.instance.PlaySound(transform.position, 13, Random.Range(1f,1f), 1f);
+        StartCoroutine(ObjectSetActive(SkillPanel, 1.8f));// 스킬 패널 활성화
+
+        isNeverDie = true;
+
+        playerCamera.gameObject.SetActive(false);
+        ultimateCutSceneCamera.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        playerCamera.gameObject.SetActive(true);
+        ultimateCutSceneCamera.gameObject.SetActive(false);
+
+        StartCoroutine(UltimateCor());
+
+        isNeverDie = false;
+
+    }
 }

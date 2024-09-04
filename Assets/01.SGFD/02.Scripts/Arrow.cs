@@ -46,6 +46,9 @@ public class Arrow : MonoBehaviourPunCallbacks
                 // 히트 파티클 생성
                 PhotonNetwork.Instantiate("HitPtc", collision.transform.position + new Vector3(0, 0.3f, 0), Quaternion.identity);
 
+                if (!archerctrl.isNeverDie)
+                    archerctrl.playerStats.currentUltimategauge++;
+
                 // 데미지 텍스트 생성 RPC 호출
                 PV.RPC("SpawnDamageText", RpcTarget.AllBuffered, collision.transform.position, _damage);
 

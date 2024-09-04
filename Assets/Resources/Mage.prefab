@@ -19126,6 +19126,9 @@ MonoBehaviour:
   stoneGraveMesh: {fileID: 6198164055586752269}
   diePanel: {fileID: 1710176061748189003}
   reSpawnBar: {fileID: 1051740694464281290}
+  ultimateBar: {fileID: 0}
+  maxUltimategauge: 0
+  currentUltimategauge: 0
   isDie: 0
 --- !u!114 &1695807690777784279
 MonoBehaviour:
@@ -19306,6 +19309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinText: {fileID: 803952182740348000}
   coin: 0
+  playerStats: {fileID: 0}
 --- !u!1 &9197148571677412905
 GameObject:
   m_ObjectHideFlags: 0
@@ -22328,7 +22332,7 @@ PrefabInstance:
     - target: {fileID: 3602318262160386771, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_Size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3602318262160386771, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}

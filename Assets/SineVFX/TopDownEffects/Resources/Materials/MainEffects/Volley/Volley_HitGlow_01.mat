@@ -2,20 +2,27 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Volley_HitGlow_01
   m_Shader: {fileID: 4800000, guid: a11c402da186435cb7cdd325647bd0f3, type: 3}
-  m_ShaderKeywords: _DISSOLVETEXTUREFLIP_ON _EMISSIONVERTEXSTREAMENABLED_ON _NOISE01RADIAL_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _DISSOLVETEXTUREFLIP_ON
+  m_InvalidKeywords:
+  - _EMISSIONVERTEXSTREAMENABLED_ON
+  - _NOISE01RADIAL_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -99,6 +106,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _CustomColorMaskAffectedByDynamics: 1
     - _CustomColorMaskAffectedByDynamics1: 1
@@ -206,8 +214,9 @@ Material:
     m_Colors:
     - _CustomColorMaskChannels: {r: 1, g: 0, b: 0, a: 0}
     - _CustomColorMaskChannels1: {r: 1, g: 0, b: 0, a: 0}
-    - _FinalColor: {r: 0.5568628, g: 0.4392157, b: 1, a: 1}
+    - _FinalColor: {r: 0.43921566, g: 1, b: 0.4932877, a: 1}
     - _MainMaskChannelsMultiply: {r: 1, g: 0, b: 0, a: 0}
     - _MainTexChannels: {r: 1, g: 0, b: 0, a: 0}
     - _Noise01ScrollSpeedUV: {r: 1, g: 1, b: 0, a: 0}
     - _RampColorTint: {r: 0.7607843, g: 0.5803921, b: 1, a: 1}
+  m_BuildTextureStacks: []
