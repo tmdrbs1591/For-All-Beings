@@ -23,7 +23,7 @@ public class Meteo : MonoBehaviour
    
     IEnumerator DestroyObj()
     {
-        yield return new WaitForSeconds(8);
+        yield return new WaitForSeconds(7);
         Destroy(gameObject);
     }
     

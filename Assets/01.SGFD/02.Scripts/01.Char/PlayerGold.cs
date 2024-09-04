@@ -9,8 +9,10 @@ public class PlayerGold : MonoBehaviour
 {
     [SerializeField] private TMP_Text coinText;
     [SerializeField] public int coin;
+    [SerializeField] PlayerStats playerStats;
     void Start()
     {
+        playerStats = GetComponent<PlayerStats>();
     }
 
     void Update()
@@ -22,6 +24,7 @@ public class PlayerGold : MonoBehaviour
         var GoldCom = collision.gameObject.GetComponent<Gold>();
         if (collision.gameObject.CompareTag("Gold") && GoldCom.isget)
         {
+            playerStats.currentUltimategauge++;
             AudioManager.instance.PlaySound(transform.position, 6, Random.Range(1f, 0.9f), 0.4f);
             var ps = GetComponent<PlayerStats>();
             ps.currentXp += 10;

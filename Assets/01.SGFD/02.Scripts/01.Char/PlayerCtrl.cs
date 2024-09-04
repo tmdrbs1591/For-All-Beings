@@ -32,6 +32,8 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] Slider hpBar;
 
 
+     public  bool isNeverDie;
+
 
 
     [Header("쿨타임")]
@@ -172,7 +174,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
     void Move()
     {
-        if (isStop || isSkill) // 공격이나 스킬 중엔 못 움직이게
+        if (isStop || isSkill || isNeverDie) // 공격이나 스킬 중엔 못 움직이게
             return;
 
         Vector3 moveVec = new Vector3(hAxis, 0, vAxis).normalized;
@@ -392,6 +394,8 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void PlayerTakeDamage(float damage)
     {
+        if (isNeverDie)
+            return;
         playerStats.curHp -= damage;
         StartCoroutine(playerStats.HitPanelCor());
     }
@@ -455,6 +459,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator SkillCor()
     {
+     
         yield return new WaitForSeconds(0.1f);
         //CameraShake.instance.ZoomIn(10f, 1f); // 줌 인
 
@@ -565,7 +570,15 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
     void StartUltimate()
     {
-       StartCoroutine(UltimateCamera());
+        if (playerStats.currentUltimategauge >= playerStats.maxUltimategauge)
+        {
+            AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
+            AudioManager.instance.PlaySound(transform.position, 12, Random.Range(1f, 1f), 1f);
+
+            isNeverDie = true;
+            playerStats.currentUltimategauge = 0;
+            StartCoroutine(UltimateCamera());
+        }
     }
     [PunRPC]
     void Ultimate()
@@ -577,19 +590,34 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator UltimateCor()
     {
      
+
         yield return new WaitForSeconds(0.1f);
         ultimatePtc.SetActive(true);
+        var originalAttackBoxSize = attackBoxSize;
 
+        attackBoxSize = new Vector3(5, 5, 6); // 어택박스 크기 키우기
+
+        playerStats.originalMesh.SetActive(false); // 모습 없애기 
         for (int i = 0; i < 30; i++)
         {
             PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 1f);
             AudioManager.instance.PlaySound(transform.position, 11, Random.Range(1.1f, 1.8f), 1f);
             yield return new WaitForSeconds(0.08f);
-            CameraShake.instance.Shake();
+
+            if (photonView.IsMine)
+                CameraShake.instance.Shake();
         }
+
+        playerStats.originalMesh.SetActive(true); // 모습 나타내기
+        isNeverDie = false;
+        attackBoxSize = originalAttackBoxSize;
+
         yield return new WaitForSeconds(0.37f);
         AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1.2f, 1.2f), 0.2f);
+
+        if (photonView.IsMine)
         CameraShake.instance.Shake();
+
         PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 10f);
 
         ultimatePtc.SetActive(false);

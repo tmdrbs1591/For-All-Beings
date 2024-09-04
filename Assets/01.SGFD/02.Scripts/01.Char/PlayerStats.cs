@@ -28,11 +28,16 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [SerializeField] TMP_Text xpText;
     [SerializeField] GameObject hitPanel;
 
-    [SerializeField] GameObject originalMesh;
+    [SerializeField] public GameObject originalMesh;
     [SerializeField] GameObject stoneGraveMesh;
     [SerializeField] GameObject diePanel;
 
     [SerializeField] public Slider reSpawnBar;
+    [SerializeField] public Slider ultimateBar;
+
+    public float maxUltimategauge;
+    public float currentUltimategauge;
+
 
     private float keyPressTime = 0f;
     private  float requiredHoldTime = 3f;
@@ -52,6 +57,10 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     void Update()
     {
         xpSlider.value = Mathf.Lerp(xpSlider.value, currentXp / xp, Time.deltaTime * 40f);
+
+        if (ultimateBar != null)
+        ultimateBar.value = Mathf.Lerp(ultimateBar.value, currentUltimategauge / maxUltimategauge, Time.deltaTime * 40f);
+
         levelText.text = "LV." + playerLevel.ToString();
         xpText.text = currentXp + "/" + xp;
 
