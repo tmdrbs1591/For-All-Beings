@@ -22,6 +22,8 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private GameObject DashPtc;
     [SerializeField] private GameObject SkillPtc;
 
+    [SerializeField] private GameObject ultimatePtc;
+
 
     [SerializeField] private GameObject SkillPanel;
 
@@ -34,7 +36,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("쿨타임")]
     private float attacklCurTime;
- 
+
     private float skilllCurTime;
     [SerializeField] private float dashCoolTime = 5f; // 대수ㅣ 쿨타임 설정
     private float dashCurTime;
@@ -54,7 +56,10 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [Header("사운드")]
     [SerializeField] private AudioSource wakkAudioSource;
 
+    [Header("카메라")]
     [SerializeField] Camera MiniMapCamera;
+    [SerializeField] Camera playerCamera;
+    [SerializeField] Camera ultimateCutSceneCamera;
 
 
 
@@ -85,11 +90,12 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     protected void Awake()
     {
         wakkAudioSource = GetComponent<AudioSource>();
-        playerStats = GetComponent<PlayerStats>();  
+        playerStats = GetComponent<PlayerStats>();
         rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         playerStats.curHp = playerStats.maxHp;
 
+        playerCamera = Camera.main;
 
         if (!photonView.IsMine)
         {
@@ -146,6 +152,12 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             anim.SetTrigger("isSleep");
         }
 
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            StartUltimate();
+        }
+
         PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
 
     }
@@ -187,7 +199,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
     }
-        void Jump()
+    void Jump()
     {
         if (jumpDown)
         {
@@ -211,7 +223,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     SingleAudioManager.instance.PlaySound(transform.position, 7, UnityEngine.Random.Range(1f, 1f), 0.3f);
                 }
-                else 
+                else
                 {
                     SingleAudioManager.instance.PlaySound(transform.position, 8, UnityEngine.Random.Range(1f, 1f), 0.3f);
                 }
@@ -543,5 +555,59 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(attackBoxPos.position, attackBoxSize);
     }
-   
+
+
+
+
+
+
+
+    void StartUltimate()
+    {
+       StartCoroutine(UltimateCamera());
+    }
+    [PunRPC]
+    void Ultimate()
+    {
+    
+        StartCoroutine(UltimateCor());
+    }
+
+    IEnumerator UltimateCor()
+    {
+     
+        yield return new WaitForSeconds(0.1f);
+        ultimatePtc.SetActive(true);
+
+        for (int i = 0; i < 30; i++)
+        {
+            PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 1f);
+            AudioManager.instance.PlaySound(transform.position, 11, Random.Range(1.1f, 1.8f), 1f);
+            yield return new WaitForSeconds(0.08f);
+            CameraShake.instance.Shake();
+        }
+        yield return new WaitForSeconds(0.37f);
+        AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1.2f, 1.2f), 0.2f);
+        CameraShake.instance.Shake();
+        PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 10f);
+
+        ultimatePtc.SetActive(false);
+
+      
+
+    }
+    IEnumerator UltimateCamera()
+    {
+        playerCamera.gameObject.SetActive(false);
+        ultimateCutSceneCamera.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        playerCamera.gameObject.SetActive(true);
+        ultimateCutSceneCamera.gameObject.SetActive(false);
+
+        PV.RPC("Ultimate", RpcTarget.AllBuffered); // 궁극기
+
+    }
+
 }
