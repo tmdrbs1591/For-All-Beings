@@ -31,6 +31,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [SerializeField] public GameObject originalMesh;
     [SerializeField] GameObject stoneGraveMesh;
     [SerializeField] GameObject diePanel;
+    [SerializeField] public GameObject KeyUI;
 
     [SerializeField] public Slider reSpawnBar;
     [SerializeField] public Slider ultimateBar;
@@ -201,5 +202,20 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     }
 
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Portal"))
+        {
+            KeyUI.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Portal"))
+        {
+            KeyUI.SetActive(false);
+        }
+    }
 
 }

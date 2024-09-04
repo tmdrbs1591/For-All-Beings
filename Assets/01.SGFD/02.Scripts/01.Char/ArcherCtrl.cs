@@ -373,6 +373,7 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
         if (other.transform.CompareTag("Portal") && Input.GetKey(KeyCode.C))
         {
             PV.RPC("MoveToNextStage", RpcTarget.All);
+            playerStats.KeyUI.SetActive(false);
         }
     }
 

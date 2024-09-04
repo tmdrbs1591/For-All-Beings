@@ -344,6 +344,8 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
         {
             Debug.Log("next room");
             PV.RPC("MoveToNextStage", RpcTarget.All);
+            playerStats.KeyUI.SetActive(false);
+
         }
     }
 
