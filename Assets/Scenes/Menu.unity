@@ -17241,6 +17241,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 2049605422}
+        m_TargetAssemblyTypeName: ButtonSoundManager, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1161131856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17912,7 +17924,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1542825955}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.67978644
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20954,6 +20966,18 @@ MonoBehaviour:
           m_StringArgument: SampleScene
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2049605422}
+        m_TargetAssemblyTypeName: ButtonSoundManager, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1468288463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22057,6 +22081,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fd1e05904c0901643be1e983b3ffe0d7, type: 3}
   - {fileID: 8300000, guid: 1ca96d1c366bb804f849b430ca3c9b97, type: 3}
   - {fileID: 8300000, guid: 856cbc0c154e7bf438b01ab9250167ec, type: 3}
+  - {fileID: 8300000, guid: facecb8a5a0a5e548b6f6d9535091df8, type: 3}
+  - {fileID: 8300000, guid: 4d5fe622578f59e45b312ceb78fa6f40, type: 3}
   songs: []
   audioObject: {fileID: 7794724503542147258, guid: 1545f9b2ec6da0d448bdffcffce94dcd,
     type: 3}
@@ -29116,7 +29142,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: 300435.4}
+  m_AnchoredPosition: {x: -10, y: 330051.53}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2009905255

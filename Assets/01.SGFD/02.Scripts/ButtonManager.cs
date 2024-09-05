@@ -9,6 +9,10 @@ public class ButtonManager : MonoBehaviour
 {
     [SerializeField] Image fadeIn;
     [SerializeField] Image fadeOut;
+
+    [SerializeField] GameObject MenuPanel;
+
+    [SerializeField] bool isMenulPanel = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +22,17 @@ public class ButtonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && !isMenulPanel)
+        { 
+            MenuPanel.SetActive(true);
+            isMenulPanel = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && isMenulPanel)
+        {
+            MenuPanel.SetActive(false);
+            isMenulPanel = false;
+        }
+
 
     }
 
@@ -31,4 +46,6 @@ public class ButtonManager : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         SceneManager.LoadScene(sceneName);
     }
+
+    
 }
