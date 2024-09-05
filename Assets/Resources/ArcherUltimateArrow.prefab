@@ -25536,7 +25536,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 828c759a916d429999d609b9a9394ad1, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -35390,7 +35389,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9.28538, y: 9.28538, z: 9.28538}
+  m_Size: {x: 12.4865465, y: 12.4865465, z: 12.4865465}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8640071158130335546
 MonoBehaviour:

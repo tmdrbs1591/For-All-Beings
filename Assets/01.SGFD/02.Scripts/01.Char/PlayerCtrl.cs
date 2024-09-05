@@ -617,8 +617,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
                 CameraShake.instance.Shake();
         }
 
-        playerStats.originalMesh.SetActive(true); // 모습 나타내기
-        isNeverDie = false;
+       
         attackBoxSize = originalAttackBoxSize;
 
         yield return new WaitForSeconds(0.37f);
@@ -628,6 +627,9 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
         CameraShake.instance.Shake();
 
         PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 10f);
+
+        playerStats.originalMesh.SetActive(true); // 모습 나타내기
+        isNeverDie = false;
 
         ultimatePtc.SetActive(false);
 

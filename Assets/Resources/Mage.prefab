@@ -19127,6 +19127,7 @@ MonoBehaviour:
   stoneGraveMesh: {fileID: 6198164055586752269}
   diePanel: {fileID: 1710176061748189003}
   KeyUI: {fileID: 7351822833487076702}
+  ultimateReadyUI: {fileID: 0}
   reSpawnBar: {fileID: 1051740694464281290}
   ultimateBar: {fileID: 0}
   maxUltimategauge: 0

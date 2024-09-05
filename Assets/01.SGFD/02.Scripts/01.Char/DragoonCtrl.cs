@@ -21,6 +21,7 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private GameObject AttackPtc3;
     [SerializeField] private GameObject DashPtc;
     [SerializeField] private GameObject SkillPtc;
+    [SerializeField] private GameObject ultimatePtc;
 
 
     [SerializeField] private GameObject SkillPanel;
@@ -51,6 +52,9 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [Header("사운드")]
     [SerializeField] private AudioSource wakkAudioSource;
 
+    [Header("카메라")]
+    [SerializeField] Camera playerCamera;
+    [SerializeField] Camera ultimateCutSceneCamera;
     [SerializeField] Camera MiniMapCamera;
 
 
@@ -62,6 +66,8 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
     bool isDash;
     bool isStop;
     bool isSkill;
+
+    public bool isNeverDie;
 
     Animator anim; // 애니메이터 컴포넌트
 
@@ -85,6 +91,8 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
         rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         playerStats.curHp = playerStats.maxHp;
+
+        playerCamera = Camera.main;
 
 
         if (!photonView.IsMine)
@@ -137,7 +145,10 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
             transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 25);
         }
         PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
-
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            StartUltimate();
+        }
     }
 
     void GetInput()
@@ -149,7 +160,7 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
     void Move()
     {
-        if (isStop || isSkill) // 공격이나 스킬 중엔 못 움직이게
+        if (isStop || isSkill || isNeverDie) // 공격이나 스킬 중엔 못 움직이게
             return;
 
         Vector3 moveVec = new Vector3(hAxis, 0, vAxis).normalized;
@@ -270,8 +281,13 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
                 PhotonView enemyPhotonView = collider.gameObject.GetComponent<PhotonView>();
                 if (enemyPhotonView != null && enemyPhotonView.IsMine)
                 {
+                
                     enemyPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, damage);
                     enemyScript.playerObj = this.gameObject;
+
+                    if (!isNeverDie)
+                        playerStats.currentUltimategauge++;
+
                     PV.RPC("SpawnDamageText", RpcTarget.AllBuffered, collider.transform.position, damage);
                     PhotonNetwork.Instantiate("HitPtc", collider.transform.position + new Vector3(0, 0.3f, 0), Quaternion.identity);
                     if (enemyScript.currentHP - damage <= 0)
@@ -359,6 +375,8 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void PlayerTakeDamage(float damage)
     {
+        if (isNeverDie)
+            return;
         playerStats.curHp -= damage;
         hpBar.value = playerStats.curHp / playerStats.maxHp; // HP 바 업데이트
         StartCoroutine(playerStats.HitPanelCor());
@@ -522,5 +540,74 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(attackBoxPos.position, attackBoxSize);
     }
+    void StartUltimate()
+    {
+        if (playerStats.currentUltimategauge >= playerStats.maxUltimategauge)
+        {
+            AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
 
+            StartCoroutine(ObjectSetActive(SkillPanel, 1.8f));// 스킬 패널 활성화
+
+            isNeverDie = true;
+            playerStats.currentUltimategauge = 0;
+
+             StartCoroutine(UltimateCamera());
+        }
+    }
+
+    IEnumerator UltimateCor()
+    {
+        yield return new WaitForSeconds(0.3f);
+        ultimatePtc.SetActive(true);
+        var originalAttackBoxSize = attackBoxSize;
+
+        attackBoxSize = new Vector3(7, 7, 7); // 어택박스 크기 키우기
+
+
+            PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 200f);
+            AudioManager.instance.PlaySound(transform.position, 11, Random.Range(1.1f, 1.8f), 1f);
+            yield return new WaitForSeconds(0.08f);
+
+            if (photonView.IsMine)
+                CameraShake.instance.Shake();
+
+
+        attackBoxSize = originalAttackBoxSize;
+
+        yield return new WaitForSeconds(0.37f);
+        AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1.2f, 1.2f), 0.2f);
+
+        if (photonView.IsMine)
+            CameraShake.instance.Shake();
+
+        PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 10f);
+
+
+        yield return new WaitForSeconds(1f);
+        isNeverDie = false;
+        ultimatePtc.SetActive(false);
+
+
+
+    }
+
+    [PunRPC]
+    void Ultimate()
+    {
+        StartCoroutine(UltimateCor());
+
+    }
+    IEnumerator UltimateCamera()
+    {
+        playerCamera.gameObject.SetActive(false);
+        ultimateCutSceneCamera.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        playerCamera.gameObject.SetActive(true);
+        ultimateCutSceneCamera.gameObject.SetActive(false);
+
+        PV.RPC("Ultimate", RpcTarget.AllBuffered); // 궁극기
+
+    }
 }

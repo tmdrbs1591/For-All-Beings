@@ -32,6 +32,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [SerializeField] GameObject stoneGraveMesh;
     [SerializeField] GameObject diePanel;
     [SerializeField] public GameObject KeyUI;
+    [SerializeField] public GameObject ultimateReadyUI;
 
     [SerializeField] public Slider reSpawnBar;
     [SerializeField] public Slider ultimateBar;
@@ -68,6 +69,11 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
         photonView.RPC("Die", RpcTarget.AllBuffered);
 
        reSpawnBar.value = keyPressTime / requiredHoldTime;
+
+
+
+        if (currentUltimategauge >= maxUltimategauge) ultimateReadyUI.SetActive(true);
+        else ultimateReadyUI.SetActive(false);
     }
 
     [PunRPC]
