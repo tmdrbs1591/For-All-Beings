@@ -195,10 +195,11 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                 if (isEventStage == 0 && !isEvent && currentStage % 10 != 0)
                 {
                     isEvent = true;
-                    AudioManager.instance.PlaySound(transform.position, 14, Random.Range(1f, 1f), 1f);
 
                     int randomIndex = Random.Range(0, eventStage.Count);
                     targetPosition = eventStage[randomIndex].SpawnPos;
+
+                    StartCoroutine(EventSoundCor());
 
                     // 포탈 위치와 상태 설정을 Co_PortalSet 코루틴으로 대체
                     StartCoroutine(Co_PortalSet(false, eventStage[randomIndex].PortalPos));
@@ -561,5 +562,11 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             canvas.SetActive(true);
         }
+    }
+    IEnumerator EventSoundCor()
+    {
+        yield return new WaitForSeconds(2f);
+        AudioManager.instance.PlaySound(transform.position, 14, Random.Range(1.2f, 1.2f), 1f);
+
     }
 }
