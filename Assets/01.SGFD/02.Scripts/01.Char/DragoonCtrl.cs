@@ -360,11 +360,16 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
         {
             Debug.Log("next room");
             PV.RPC("MoveToNextStage", RpcTarget.All);
-            playerStats.KeyUI.SetActive(false);
+            PV.RPC("KeyUIFalse", RpcTarget.All);
 
         }
     }
 
+    [PunRPC]
+    void KeyUIFalse()
+    {
+        playerStats.KeyUI.SetActive(false);
+    }
     [PunRPC]
     void MoveToNextStage()
     {
