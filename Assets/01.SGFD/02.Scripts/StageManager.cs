@@ -170,7 +170,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
 
 
 
-                photonView.RPC("CutSceneCamera", RpcTarget.All); // ÄÆ¾À ½ÃÀÛ
+                photonView.RPC(" b   ", RpcTarget.All); // ÄÆ¾À ½ÃÀÛ
 
                 SongManager.instance.BossSongPlay();// º¸½º ³ë·¡·Î
 
@@ -192,7 +192,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 int isEventStage = Random.Range(0, stagePercentage);
 
-                if (isEventStage == 0 && !isEvent)
+                if (isEventStage == 0 && !isEvent && currentStage % 10 != 0)
                 {
                     isEvent = true;
                     int randomIndex = Random.Range(0, eventStage.Count);
