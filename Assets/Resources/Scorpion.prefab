@@ -1399,7 +1399,7 @@ Animator:
   m_GameObject: {fileID: 4371663717125673477}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f167c3addd65c1c4f9e6a23af2beaf8c, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7054afc5bc5ccb74ca2e01a4ac7fc0f7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 33825ea480606fb44a701e7ca933546f, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1522,7 +1522,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: isWalk
+  - Type: 9
+    SynchronizeType: 0
+    Name: isDamage
+  - Type: 9
+    SynchronizeType: 0
+    Name: isAttack
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
