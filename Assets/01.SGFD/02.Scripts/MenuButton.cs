@@ -93,7 +93,7 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             buttonImage.material = originalMaterial;
 
             // 추가적인 애니메이션 등을 실행할 수 있습니다.
-            transform.DOScale(Vector3.one, scaleDuration).SetEase(Ease.OutSine);
+            transform.DOScale(new Vector3(0.8f, 0.8f, 0.8f), scaleDuration).SetEase(Ease.OutSine);
         }
     }
 
@@ -118,7 +118,7 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         isNavigated = false;
 
         //네비게이션에서 버튼이 선택 해제됐을 때의 처리
-        transform.DOScale(Vector3.one, scaleDuration).SetEase(Ease.OutSine);
+        transform.DOScale(new Vector3(0.8f, 0.8f,0.8f), scaleDuration).SetEase(Ease.OutSine);
         buttonImage.material = originalMaterial;
     }
 
