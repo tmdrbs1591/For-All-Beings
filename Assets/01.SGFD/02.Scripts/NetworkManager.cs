@@ -59,6 +59,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject massagePanel;
     [SerializeField] SongManager songManager;
 
+    private void Start()
+    {
+        PhotonNetwork.Disconnect();
+    }
+
+
     public void StartGame()
     {
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.IsConnected)
