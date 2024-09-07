@@ -143,7 +143,7 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             UltimateStart();
         }
@@ -209,7 +209,7 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (attacklCurTime <= 0)
         {
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetMouseButtonDown(0))
             {
                 GameObject closestEnemy = FindClosestEnemy();
                 if (closestEnemy != null)
@@ -409,7 +409,7 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
         if (dashCurTime <= 0)
         {
             // 대쉬 입력을 감지하고, 대쉬할 때의 처리를 구현합니다.
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 dashCurTime = dashCoolTime;
 
@@ -436,7 +436,7 @@ public class ArcherCtrl : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (skilllCurTime <= 0)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 AudioManager.instance.PlaySound(transform.position, 3, Random.Range(1f, 1f), 1f);
 
