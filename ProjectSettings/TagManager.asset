@@ -18,6 +18,7 @@ TagManager:
   - Flag
   - Ostrich
   - Canvas
+  - TutorialPoint
   layers:
   - Default
   - TransparentFX

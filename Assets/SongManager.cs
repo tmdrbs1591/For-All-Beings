@@ -49,4 +49,9 @@ public class SongManager : MonoBehaviour
         song.clip = BossSong; // 새로운 클립 설정
         song.Play(); // 클립 재생
     }
+
+    public void SetMusicVolume(float volume)
+    {
+        song.volume = volume;
+    }
 }
