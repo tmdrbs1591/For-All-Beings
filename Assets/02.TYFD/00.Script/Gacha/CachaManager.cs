@@ -1,11 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using UnityEngine.UI;
+
+//[System.Serializable]
+//public class CharGradeInfo
+//{
+//    public string gradeName;
+//    public Color color;
+//}
 
 public class GachaManager : MonoBehaviour
 {
     public List<GachaCharacterInfo> characterInfos = new List<GachaCharacterInfo>();
     public float total = 0;
+
+    [Header("GachaMotion")]
+    [SerializeField] private GameObject gachaPanel;
+    [SerializeField] private GameObject Acorn;
+    [SerializeField] private Transform acornStartPos;
+    [SerializeField] private Transform acornLastPos;
+    [SerializeField] private Ease acornEase;
+    [SerializeField] private GameObject rateCircle;
+    [SerializeField] private List<CharGradeInfo> charGradeInfos = new List<CharGradeInfo>();
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            StartCoroutine(PlayGachaAnime(CharGrade.Common));
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            StartCoroutine(PlayGachaAnime(CharGrade.Rare));
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            StartCoroutine(PlayGachaAnime(CharGrade.Epic));
+        }
+    }
+
 
     // 캐릭터를 랜덤하게 선택하는 함수
     public GachaCharacterInfo RandomChar()
@@ -80,6 +115,41 @@ public class GachaManager : MonoBehaviour
         else
         {
             Debug.Log("총 가중치: " + total); // 총 가중치 확인
+        }
+    }
+
+
+    IEnumerator PlayGachaAnime(CharGrade charGrade)
+    {
+        gachaPanel.SetActive(true);
+        yield return null;
+
+        // 도토리 위치 초기화
+        Acorn.transform.position = acornStartPos.transform.position;
+        Acorn.SetActive(true);
+
+        // x값과 y값을 각각 제어하는 애니메이션
+        Sequence sequence = DOTween.Sequence();  // DOTween의 Sequence 사용
+
+        // y값은 통통 튀는 애니메이션 (OutBounce 이징 사용) + y값 보정
+        float yOffset = 0.1f;  // y 좌표에 대한 보정값
+        sequence.Append(Acorn.transform
+            .DOMoveY(acornLastPos.position.y - yOffset, 1f)  // 목표 y 위치로 이동 (보정 적용)
+            .SetEase(Ease.OutBounce));
+
+        // x값은 부드럽게 이동 (통통 튀지 않음)
+        sequence.Join(Acorn.transform
+            .DOMoveZ(acornLastPos.position.z, 1f)  // 목표 x 위치로 1초 동안 이동
+            .SetEase(Ease.Linear));
+
+        yield return sequence.WaitForCompletion();  // 애니메이션 완료까지 대기
+
+        foreach (var gradeInfo in charGradeInfos)
+        {
+            if (gradeInfo.gradeName == charGrade.ToString())
+            {
+                rateCircle.GetComponent<Image>().color = gradeInfo.color;
+            }
         }
     }
 }
