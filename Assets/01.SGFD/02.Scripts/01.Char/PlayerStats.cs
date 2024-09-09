@@ -212,7 +212,11 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     {
         if (other.gameObject.CompareTag("Portal"))
         {
-            KeyUI.SetActive(true);
+            if (photonView.IsMine)
+            {
+                KeyUI.SetActive(true);
+
+            }
         }
     }
 

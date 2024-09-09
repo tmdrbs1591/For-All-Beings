@@ -836,8 +836,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemytype: 
-  currentHP: 300
-  maxHP: 300
+  currentHP: 600
+  maxHP: 600
   attackRange: 7
   attackDamage: 1
   maxAttackSpeed: 3

@@ -11,6 +11,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
     public static NetworkManager instance;
 
+    public string type;
+
     public CharImage charImage;
     public CharManager charManager;
     public GameObject fadeImage;
@@ -62,6 +64,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.Disconnect();
+
+        if (type == "Tutorial")
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
 
@@ -237,7 +244,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom() => PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 4 });
 
-    public void JoinRandomRoom() => PhotonNetwork.JoinRandomRoom();
+    public void JoinRandomRoom() =>PhotonNetwork.JoinRandomRoom();
 
     public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 
