@@ -242,9 +242,39 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomPanel.SetActive(false);
     }
 
-    public void CreateRoom() => PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 4 });
+    public void CreateRoom()
+    {
+        string roomName = string.IsNullOrEmpty(RoomInput.text) ? "Room" + Random.Range(0, 100) : RoomInput.text;
+        RoomOptions roomOptions = new RoomOptions();
 
-    public void JoinRandomRoom() =>PhotonNetwork.JoinRandomRoom();
+        // Tutorial 타입일 경우 방 인원수를 1명으로 설정
+        if (type == "Tutorial")
+        {
+            roomOptions.MaxPlayers = 1;
+        }
+        else
+        {
+            roomOptions.MaxPlayers = 4; // 기본 인원수
+        }
+
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
+    }
+
+
+    public void JoinRandomRoom()
+    {
+        // Tutorial 타입일 경우, 방을 직접 생성하고 방장이 됩니다.
+        if (type == "Tutorial")
+        {
+            CreateRoom();
+        }
+        else
+        {
+            // 일반 경우는 랜덤 방에 참가
+            PhotonNetwork.JoinRandomRoom();
+        }
+    }
+
 
     public void LeaveRoom() => PhotonNetwork.LeaveRoom();
 
