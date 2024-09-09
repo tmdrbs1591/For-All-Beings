@@ -70,14 +70,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.IsConnected)
         {
             PV.RPC("StartGameRPC", RpcTarget.All);
-            StatusText.gameObject.SetActive(false);
+            PV.RPC("StatusTextfalse", RpcTarget.All);
+          
         }
         else
         {
             Debug.LogError("Not connected to Photon master client or not in a room.");
         }
     }
-
+    [PunRPC]
+    public void StatusTextfalse()
+    {
+        StatusText.gameObject.SetActive(false);
+    }
     public void Spawn()
     {
         if (PhotonNetwork.IsConnectedAndReady)

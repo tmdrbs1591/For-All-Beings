@@ -103,6 +103,7 @@ MonoBehaviour:
   - Ultimate
   - KeyUIFalse
   - LongRangeAttackPun
+  - StatusTextfalse
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
