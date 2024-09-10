@@ -19,6 +19,7 @@ TagManager:
   - Ostrich
   - Canvas
   - TutorialPoint
+  - EventBox
   layers:
   - Default
   - TransparentFX

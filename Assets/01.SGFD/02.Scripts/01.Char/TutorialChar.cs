@@ -19,5 +19,13 @@ public class TutorialChar : MonoBehaviour
             TutorialManager.instance.MoveTutorial();
             Destroy(other.gameObject);
         }
+        if (other.gameObject.CompareTag("EventBox"))
+        {
+            Debug.Log("asdasd");
+            TutorialManager.instance.EventTutorial();
+            Destroy(other.gameObject);
+        }
+
     }
+
 }

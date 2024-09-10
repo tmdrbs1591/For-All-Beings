@@ -44,7 +44,6 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
         anim = playerController.GetComponent<Animator>();
 
-        CharManager.instance.currentCharacter = Character.Knight;
         StartCoroutine(TutorialStart());
     }
 
@@ -194,5 +193,25 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Instantiate(monsterPrefabs.name, monsterSpawnPoint[i].transform.position, Quaternion.identity);
         }
+    }
+    public void EventTutorial()
+    {
+        StartCoroutine(EventTutorialCor());
+    }
+    IEnumerator EventTutorialCor()
+    {
+        yield return new WaitForSeconds(1f);
+        anim.SetBool("isWalk", false);
+
+        playerController.enabled = false;
+        Text("다람쥐가 도토리를 다 떨어트렸어!");
+        yield return new WaitForSeconds(2f);
+        Text("다람쥐를 도와주자!");
+        yield return new WaitForSeconds(2f);
+        Text("C를 눌러 도토리를 줍고 바구니에 넣을 수 있어!");
+        yield return new WaitForSeconds(2f);
+
+        messagePanel.SetActive(false);
+        playerController.enabled = true;
     }
 }
