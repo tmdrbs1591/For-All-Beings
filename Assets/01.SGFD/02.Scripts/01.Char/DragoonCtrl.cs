@@ -356,7 +356,7 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.transform.CompareTag("Portal") && Input.GetKey(KeyCode.C))
+        if (other.transform.CompareTag("Portal") && Input.GetKey(KeyCode.F))
         {
             Debug.Log("next room");
             PV.RPC("MoveToNextStage", RpcTarget.All);

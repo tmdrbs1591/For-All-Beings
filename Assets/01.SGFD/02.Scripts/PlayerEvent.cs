@@ -7,6 +7,7 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] private Vector3 eventBoxSize; // 이벤트 발생 박스
     [SerializeField] private Transform eventBoxPos;
+    [SerializeField] public GameObject KeyUI;
 
     public bool isHold; // 현재 도토리를 잡고 있는지
     private GameObject heldObject; // 현재 잡고 있는 오브젝트
@@ -33,18 +34,29 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (collider.CompareTag("Acorn"))
                 {
-                    if (Input.GetKeyDown(KeyCode.C) && !isHold)
+                    if (!isHold)
                     {
+                        KeyUI.SetActive(true);
+                    }
+                    if (Input.GetKeyDown(KeyCode.F) && !isHold)
+                    {
+                        KeyUI.SetActive(false);
                         isHold = true;
                         heldObject = collider.gameObject;
                         photonView.RPC("SyncAcornPickup", RpcTarget.AllBuffered, pv.ViewID);
                         Debug.Log("잡았다!");
                     }
                 }
-                else if (collider.CompareTag("Basket"))
+                if (collider.CompareTag("Basket"))
                 {
-                    if (Input.GetKeyDown(KeyCode.C) && isHold)
+                    if (isHold)
                     {
+                        KeyUI.SetActive(true);
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.F) && isHold)
+                    {
+                        KeyUI.SetActive(false);
                         isHold = false;
                         photonView.RPC("SyncAcornDrop", RpcTarget.AllBuffered, heldObject.GetComponent<PhotonView>().ViewID, pv.ViewID);
                         heldObject = null;
@@ -52,6 +64,7 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
                     }
                 }
             }
+        
         }
 
         if (isHold && heldObject != null)
@@ -64,7 +77,11 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
     }
-
+    [PunRPC]
+    void KeyUIFalse()
+    {
+                        KeyUI.SetActive(false);
+    }
    
 
     [PunRPC]

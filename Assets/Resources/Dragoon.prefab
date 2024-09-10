@@ -995,6 +995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventBoxSize: {x: 2.83, y: 2.25, z: 1.63}
   eventBoxPos: {fileID: 1781646611612674692}
+  KeyUI: {fileID: 9174598875019500206}
   isHold: 0
 --- !u!82 &3025766634541762981
 AudioSource:
@@ -23316,22 +23317,22 @@ PrefabInstance:
     - target: {fileID: 2438616580027016554, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2438616580027016554, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2438616580027016554, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 640.3684
       objectReference: {fileID: 0}
     - target: {fileID: 2438616580027016554, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 753.9708
       objectReference: {fileID: 0}
     - target: {fileID: 2438616580027016554, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
@@ -23341,7 +23342,7 @@ PrefabInstance:
     - target: {fileID: 2438616580027016554, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 10503.821
       objectReference: {fileID: 0}
     - target: {fileID: 3289831423680661328, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}

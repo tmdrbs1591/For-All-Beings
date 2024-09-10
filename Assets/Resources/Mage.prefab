@@ -19147,6 +19147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventBoxSize: {x: 1.98, y: 5.05, z: 1.74}
   eventBoxPos: {fileID: 6174286827722242712}
+  KeyUI: {fileID: 7351822833487076702}
   isHold: 0
 --- !u!82 &1946138161780512267
 AudioSource:

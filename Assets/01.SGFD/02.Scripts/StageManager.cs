@@ -159,6 +159,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                 Debug.Log("상점 스테이지 입장합니다. 현재 스테이지 : " + currentStage);
                 int shopIndex = Random.Range(0, shopPosition.Count);
                 targetPosition = shopPosition[shopIndex];
+               AudioManager.instance.PlaySound(transform.position, 17, Random.Range(1f, 1f), 1f);
             }
             // 10, 20, 30, 40, 50 스테이지일 때는 BossPosition으로 이동
             else if (currentStage  > 0 && currentStage % 10 == 0)
@@ -167,6 +168,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                 int bossIndex = Random.Range(0, bossPosition.Count);
                 int bossMonsterIndex = Random.Range(0, bossMonsters.Count);
                 targetPosition = bossPosition[bossIndex].spawnPos;
+                AudioManager.instance.PlaySound(transform.position, 17, Random.Range(1f, 1f), 1f);
 
 
 
@@ -196,6 +198,8 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     isEvent = true;
 
+                    AudioManager.instance.PlaySound(transform.position, 17, Random.Range(1f, 1f), 1f);
+
                     int randomIndex = Random.Range(0, eventStage.Count);
                     targetPosition = eventStage[randomIndex].SpawnPos;
 
@@ -208,6 +212,8 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 else
                 {
+                    AudioManager.instance.PlaySound(transform.position, 17, Random.Range(1f, 1f), 1f);
+
                     // 일반 스테이지일 때는 stageInfos에서 랜덤하게 spawnPos 선택
                     int randomIndex = Random.Range(0, stageInfos.Count);
                     while (randomIndex == lastStage)

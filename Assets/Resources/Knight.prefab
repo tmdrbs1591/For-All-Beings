@@ -16615,6 +16615,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventBoxSize: {x: 1.79, y: 1.65, z: 1.44}
   eventBoxPos: {fileID: 8605249884409897303}
+  KeyUI: {fileID: 4304849723681918547}
   isHold: 0
 --- !u!82 &8565287223233593679
 AudioSource:
@@ -23906,6 +23907,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: KeyUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5274272089376650734, guid: 95a52704700dc304ebbbc95474dd92b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6008259628621255856, guid: 95a52704700dc304ebbbc95474dd92b0,
         type: 3}
