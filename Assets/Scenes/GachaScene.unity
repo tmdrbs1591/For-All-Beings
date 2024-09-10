@@ -451,8 +451,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CachaManager, Assembly-CSharp
+      - m_Target: {fileID: 1938740624}
+        m_TargetAssemblyTypeName: GachaManager, Assembly-CSharp
         m_MethodName: GachaOneTime
         m_Mode: 1
         m_Arguments:
@@ -1166,7 +1166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1035425505
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1176,7 +1176,7 @@ RectTransform:
   m_GameObject: {fileID: 1035425504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -557}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 783151547}
@@ -1391,7 +1391,7 @@ PrefabInstance:
     - target: {fileID: 7813381503695778633, guid: 27316e4f0740cc943adbe8448ce2cd7f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1601,12 +1601,14 @@ MonoBehaviour:
     charGrade: 2
     weight: 70
   total: 0
+  getCharaterInfos: []
   gachaPanel: {fileID: 2003357601}
   Acorn: {fileID: 926035390}
   acornStartPos: {fileID: 975234843}
   acornLastPos: {fileID: 123558576}
   acornEase: 0
   rateCircle: {fileID: 1035425504}
+  backgroundPanel: {fileID: 41846865}
   charGradeInfos:
   - gradeName: Common
     color: {r: 1, g: 0.70761514, b: 0, a: 1}
@@ -1614,6 +1616,9 @@ MonoBehaviour:
     color: {r: 0, g: 0.51205397, b: 1, a: 1}
   - gradeName: Epic
     color: {r: 0.6554227, g: 0, b: 1, a: 1}
+  particleEffect: {fileID: 0}
+  isGacha: 0
+  getCharaterIndex: 0
 --- !u!1 &2003357601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,7 +1636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2003357602
 RectTransform:
   m_ObjectHideFlags: 0

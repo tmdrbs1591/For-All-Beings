@@ -4,17 +4,11 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-//[System.Serializable]
-//public class CharGradeInfo
-//{
-//    public string gradeName;
-//    public Color color;
-//}
-
 public class GachaManager : MonoBehaviour
 {
     public List<GachaCharacterInfo> characterInfos = new List<GachaCharacterInfo>();
     public float total = 0;
+    public List<GachaCharacterInfo> getCharaterInfos = new List<GachaCharacterInfo>();
 
     [Header("GachaMotion")]
     [SerializeField] private GameObject gachaPanel;
@@ -23,24 +17,20 @@ public class GachaManager : MonoBehaviour
     [SerializeField] private Transform acornLastPos;
     [SerializeField] private Ease acornEase;
     [SerializeField] private GameObject rateCircle;
+    [SerializeField] private GameObject backgroundPanel; // 어두운 배경 패널
     [SerializeField] private List<CharGradeInfo> charGradeInfos = new List<CharGradeInfo>();
+    [SerializeField] private bool isGacha = false;
+    [SerializeField] private int getCharaterIndex = 0;
+    [SerializeField] private int clickCount = 0; // 클릭 횟수를 기록
+    [SerializeField] private int maxClickCount = 3; // 등급 표시 전 최대 클릭 횟수
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.D))
+        if (Input.GetMouseButtonDown(0) && isGacha)
         {
-            StartCoroutine(PlayGachaAnime(CharGrade.Common));
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            StartCoroutine(PlayGachaAnime(CharGrade.Rare));
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            StartCoroutine(PlayGachaAnime(CharGrade.Epic));
+            HandleClick();
         }
     }
-
 
     // 캐릭터를 랜덤하게 선택하는 함수
     public GachaCharacterInfo RandomChar()
@@ -48,32 +38,25 @@ public class GachaManager : MonoBehaviour
         float weight = 0;
         float selectNum = Random.Range(0f, total); // 1부터 total까지 랜덤 선택
 
-        //Debug.Log("랜덤으로 선택된 숫자: " + selectNum); // 랜덤 선택 값 확인
         foreach (GachaCharacterInfo c in characterInfos)
         {
             weight += c.weight;
-            //Debug.Log(c.charName + " 캐릭터의 누적 가중치: " + weight); // 캐릭터 가중치 확인
-
-            // 여기서 선택된 캐릭터를 반환합니다.
             if (selectNum <= weight)
             {
-                //Debug.Log("선택된 캐릭터: " + c.charName);
                 return c;
             }
         }
 
-        // 이 시점에선 캐릭터가 무조건 선택되어야 하므로 여기는 절대 도달하지 않습니다.
-        // 만약 실행된다면, 이는 예상치 못한 버그가 있다는 의미입니다.
         Debug.LogError("Unexpected error: 캐릭터를 선택할 수 없습니다. 기본 캐릭터를 반환합니다.");
-        return characterInfos[0]; // 기본 캐릭터 반환 (이 부분은 거의 실행되지 않을 것)
+        return characterInfos[0];
     }
-
 
     // 한 번 뽑기 함수
     public void GachaOneTime()
     {
-        GachaCharacterInfo character = RandomChar();
-        Debug.Log("선택된 캐릭터: " + character.charName); // 선택된 캐릭터 이름 출력
+        getCharaterInfos.Add(RandomChar());
+        Debug.Log("선택된 캐릭터: " + getCharaterInfos[0].charName);
+        AcornDive();
     }
 
     // 10번 뽑기 함수
@@ -88,7 +71,6 @@ public class GachaManager : MonoBehaviour
     // 총 가중치 계산 및 초기화
     private void Start()
     {
-        // 캐릭터 정보가 없는 경우 방지
         if (characterInfos == null || characterInfos.Count == 0)
         {
             Debug.LogError("캐릭터 정보 리스트가 비어있습니다! 뽑기를 실행할 수 없습니다.");
@@ -101,49 +83,75 @@ public class GachaManager : MonoBehaviour
             if (character.weight <= 0)
             {
                 Debug.LogError("가중치가 0 이하인 캐릭터가 있습니다: " + character.charName);
-                continue; // 가중치가 0 이하인 캐릭터는 제외
+                continue;
             }
 
             total += character.weight;
         }
 
-        // 총 가중치가 0인 경우 방지
         if (total == 0)
         {
             Debug.LogError("모든 캐릭터의 가중치가 0입니다! 뽑기를 실행할 수 없습니다.");
         }
         else
         {
-            Debug.Log("총 가중치: " + total); // 총 가중치 확인
+            Debug.Log("총 가중치: " + total);
         }
     }
 
-
-    IEnumerator PlayGachaAnime(CharGrade charGrade)
+    private void AcornDive()
     {
         gachaPanel.SetActive(true);
-        yield return null;
 
         // 도토리 위치 초기화
         Acorn.transform.position = acornStartPos.transform.position;
         Acorn.SetActive(true);
 
-        // x값과 y값을 각각 제어하는 애니메이션
-        Sequence sequence = DOTween.Sequence();  // DOTween의 Sequence 사용
+        StartCoroutine(AcornDiveAnim());
+    }
+
+    IEnumerator AcornDiveAnim()
+    {
+        Sequence sequence = DOTween.Sequence();
 
         // y값은 통통 튀는 애니메이션 (OutBounce 이징 사용) + y값 보정
-        float yOffset = 0.1f;  // y 좌표에 대한 보정값
+        float yOffset = 0.1f;
         sequence.Append(Acorn.transform
-            .DOMoveY(acornLastPos.position.y - yOffset, 1f)  // 목표 y 위치로 이동 (보정 적용)
+            .DOMoveY(acornLastPos.position.y - yOffset, 1f)
             .SetEase(Ease.OutBounce));
 
         // x값은 부드럽게 이동 (통통 튀지 않음)
         sequence.Join(Acorn.transform
-            .DOMoveZ(acornLastPos.position.z, 1f)  // 목표 x 위치로 1초 동안 이동
+            .DOMoveZ(acornLastPos.position.z, 1f)
             .SetEase(Ease.Linear));
 
-        yield return sequence.WaitForCompletion();  // 애니메이션 완료까지 대기
+        yield return sequence.WaitForCompletion();
 
+        isGacha = true;
+    }
+
+    private void HandleClick()
+    {
+        if (clickCount < maxClickCount)
+        {
+            clickCount++;
+            ShakeAcorn(); // 클릭할 때마다 도토리 흔들기
+        }
+        else
+        {
+            GradeCircleSizeUp(); // 최대 클릭 수 도달 후 등급 서클 표시
+            clickCount = 0; // 클릭 카운트 초기화
+        }
+    }
+
+    private void ShakeAcorn()
+    {
+        // 도토리를 좌우로 흔드는 애니메이션
+        Acorn.transform.DOShakePosition(0.5f, new Vector3(0.2f, 0, 0)); // 좌우로 0.5초 동안 흔들기
+    }
+
+    private void SetGradeCircle(CharGrade charGrade)
+    {
         foreach (var gradeInfo in charGradeInfos)
         {
             if (gradeInfo.gradeName == charGrade.ToString())
@@ -151,5 +159,36 @@ public class GachaManager : MonoBehaviour
                 rateCircle.GetComponent<Image>().color = gradeInfo.color;
             }
         }
+        getCharaterIndex = 0;
+        rateCircle.SetActive(true);
+    }
+
+    private void GradeCircleSizeUp()
+    {
+        if (getCharaterIndex > getCharaterInfos.Count)
+        {
+            getCharaterIndex = 0;
+            return;
+        }
+
+        GachaCharacterInfo selectedCharacter = getCharaterInfos[getCharaterIndex];
+        SetGradeCircle(selectedCharacter.charGrade);
+
+        RectTransform rateCircleRect = rateCircle.GetComponent<RectTransform>();
+        Image rateCircleImage = rateCircle.GetComponent<Image>();
+        Image backgroundPanelImage = backgroundPanel.GetComponent<Image>();
+
+        // 서클 초기 크기를 설정 (시작할 때 작은 크기에서 시작)
+        rateCircleRect.localScale = Vector3.zero;
+        rateCircleImage.color = new Color(rateCircleImage.color.r, rateCircleImage.color.g, rateCircleImage.color.b, 0);
+        backgroundPanelImage.color = new Color(0, 0, 0, 0);  // 투명한 검정색
+
+        // 배경을 어둡게 (1초 동안)
+        backgroundPanel.SetActive(true);
+        backgroundPanelImage.DOFade(0.5f, 1f);  // 반투명한 검정색으로 변화
+
+        // 서클을 점차적으로 화면을 덮을 만큼 크게 확대 (2초 동안) + 서서히 투명도 증가
+        rateCircleRect.DOScale(new Vector3(10f, 10f, 10f), 2f).SetEase(Ease.OutCubic);
+        rateCircleImage.DOFade(1f, 1f);
     }
 }
