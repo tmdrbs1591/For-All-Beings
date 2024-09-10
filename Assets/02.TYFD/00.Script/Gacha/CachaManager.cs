@@ -24,6 +24,9 @@ public class GachaManager : MonoBehaviour
     [SerializeField] private int clickCount = 0; // 클릭 횟수를 기록
     [SerializeField] private int maxClickCount = 3; // 등급 표시 전 최대 클릭 횟수
 
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem clickParticlePrefab;  // 파티클 프리팹
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && isGacha)
@@ -36,7 +39,7 @@ public class GachaManager : MonoBehaviour
     public GachaCharacterInfo RandomChar()
     {
         float weight = 0;
-        float selectNum = Random.Range(0f, total); // 1부터 total까지 랜덤 선택
+        float selectNum = Random.Range(0f, total);
 
         foreach (GachaCharacterInfo c in characterInfos)
         {
@@ -136,6 +139,7 @@ public class GachaManager : MonoBehaviour
         {
             clickCount++;
             ShakeAcorn(); // 클릭할 때마다 도토리 흔들기
+            SpawnClickParticle(); // 클릭 시 파티클 생성
         }
         else
         {
@@ -146,8 +150,33 @@ public class GachaManager : MonoBehaviour
 
     private void ShakeAcorn()
     {
-        // 도토리를 좌우로 흔드는 애니메이션
-        Acorn.transform.DOShakePosition(0.5f, new Vector3(0.2f, 0, 0)); // 좌우로 0.5초 동안 흔들기
+        // 현재 로컬 회전 값을 저장합니다.
+        Vector3 currentRotation = Acorn.transform.localEulerAngles;
+
+        // y축을 기준으로 흔들림 각도 설정 (좌우 흔들림)
+        float shakeAngle = 15f; // 흔들릴 각도 (기울기)
+        float shakeDuration = 0.3f; // 흔들릴 시간
+
+        // 좌우로 흔들리도록 로컬 회전을 설정합니다.
+        Acorn.transform.DOLocalRotate(new Vector3(currentRotation.x, currentRotation.y + shakeAngle, currentRotation.z), shakeDuration)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(2, LoopType.Yoyo)  // 왕복
+            .OnComplete(() =>
+            {
+                // 애니메이션이 끝나면 원래 각도로 되돌립니다.
+                Acorn.transform.localEulerAngles = currentRotation;
+            });
+    }
+
+    private void SpawnClickParticle()
+    {
+        // 클릭한 위치를 스크린 좌표에서 월드 좌표로 변환
+        Vector3 clickPosition = Input.mousePosition;
+        clickPosition.z = 10f; // 카메라에서의 거리 설정 (카메라와 클릭 위치 간의 거리)
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(clickPosition);
+
+        // 파티클을 클릭 위치에서 생성
+        Instantiate(clickParticlePrefab, worldPosition, Quaternion.identity);
     }
 
     private void SetGradeCircle(CharGrade charGrade)
