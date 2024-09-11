@@ -20,6 +20,7 @@ TagManager:
   - Canvas
   - TutorialPoint
   - EventBox
+  - Crystal
   layers:
   - Default
   - TransparentFX

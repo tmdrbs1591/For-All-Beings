@@ -322,6 +322,17 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
                     }
                 }
             }
+
+            if (collider != null && collider.CompareTag("Crystal"))
+            {
+                var crystalScript = collider.gameObject.GetComponent<Crystall>();
+                PhotonView crystalPhotonView = collider.gameObject.GetComponent<PhotonView>();
+                if (crystalPhotonView != null && crystalPhotonView.IsMine)
+                {
+                    crystalPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered);
+                    PhotonNetwork.Instantiate("HitPtc", collider.transform.position + new Vector3(0, 0.3f, 0), Quaternion.identity);
+                }
+            }
         }
     }
 

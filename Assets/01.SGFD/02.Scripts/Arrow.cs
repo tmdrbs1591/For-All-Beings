@@ -57,6 +57,17 @@ public class Arrow : MonoBehaviourPunCallbacks
                 StartCoroutine(DestroyArrowDelayed());
             }
         }
+
+        if (collision != null && collision.gameObject.CompareTag("Crystal"))
+        {
+            var crystalScript = collision.gameObject.GetComponent<Crystall>();
+            PhotonView crystalPhotonView = collision.gameObject.GetComponent<PhotonView>();
+            if (crystalPhotonView != null && crystalPhotonView.IsMine)
+            {
+                crystalPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered);
+                PhotonNetwork.Instantiate("HitPtc", collision.transform.position + new Vector3(0, 0.3f, 0), Quaternion.identity);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
