@@ -1245,7 +1245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1035425505
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1682,12 +1682,12 @@ MonoBehaviour:
     weight: 21
   - charName: "\uAE30\uC0AC"
     charImage: {fileID: 21300000, guid: 37f4620802dbe8947bb3bdaef9d13ddb, type: 3}
-    charGrade: 2
+    charGrade: 0
     weight: 70
   total: 0
   getCharaterInfos: []
   gachaPanel: {fileID: 2003357601}
-  Acorn: {fileID: 926035390}
+  acorn: {fileID: 926035390}
   acornStartPos: {fileID: 975234843}
   acornLastPos: {fileID: 123558576}
   acornEase: 0
@@ -1703,7 +1703,7 @@ MonoBehaviour:
   isGacha: 0
   getCharaterIndex: 0
   clickCount: 0
-  maxClickCount: 3
+  maxClickCount: 4
   clickParticlePrefab: {fileID: 3389195404151646142, guid: 5e802b3fb86dab346a21fd6a9b3dc249,
     type: 3}
 --- !u!1 &2003357601

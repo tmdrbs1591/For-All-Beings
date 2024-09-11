@@ -12,7 +12,7 @@ public class GachaManager : MonoBehaviour
 
     [Header("GachaMotion")]
     [SerializeField] private GameObject gachaPanel;
-    [SerializeField] private GameObject Acorn;
+    [SerializeField] private GameObject acorn;
     [SerializeField] private Transform acornStartPos;
     [SerializeField] private Transform acornLastPos;
     [SerializeField] private Ease acornEase;
@@ -59,6 +59,7 @@ public class GachaManager : MonoBehaviour
     {
         getCharaterInfos.Add(RandomChar());
         Debug.Log("선택된 캐릭터: " + getCharaterInfos[0].charName);
+        SetGradeCircle(getCharaterInfos[0].charGrade);
         AcornDive();
     }
 
@@ -107,8 +108,8 @@ public class GachaManager : MonoBehaviour
         gachaPanel.SetActive(true);
 
         // 도토리 위치 초기화
-        Acorn.transform.position = acornStartPos.transform.position;
-        Acorn.SetActive(true);
+        acorn.transform.position = acornStartPos.transform.position;
+        acorn.SetActive(true);
 
         StartCoroutine(AcornDiveAnim());
     }
@@ -119,12 +120,12 @@ public class GachaManager : MonoBehaviour
 
         // y값은 통통 튀는 애니메이션 (OutBounce 이징 사용) + y값 보정
         float yOffset = 0.1f;
-        sequence.Append(Acorn.transform
+        sequence.Append(acorn.transform
             .DOMoveY(acornLastPos.position.y - yOffset, 1f)
             .SetEase(Ease.OutBounce));
 
         // x값은 부드럽게 이동 (통통 튀지 않음)
-        sequence.Join(Acorn.transform
+        sequence.Join(acorn.transform
             .DOMoveZ(acornLastPos.position.z, 1f)
             .SetEase(Ease.Linear));
 
@@ -135,36 +136,74 @@ public class GachaManager : MonoBehaviour
 
     private void HandleClick()
     {
-        if (clickCount < maxClickCount)
+        // 이미 최대 클릭 수에 도달했다면 더 이상 처리하지 않음
+        if (clickCount >= maxClickCount)
         {
-            clickCount++;
-            ShakeAcorn(); // 클릭할 때마다 도토리 흔들기
-            SpawnClickParticle(); // 클릭 시 파티클 생성
+            return;
         }
-        else
+
+        clickCount++;
+        ShakeAcorn(); // 클릭할 때마다 도토리 흔들기
+        SpawnClickParticle(); // 클릭 시 파티클 생성
+
+        // 클릭 횟수에 따라 도토리 색상 변경
+        ChangeAcornColorByClickCount();
+
+        // 최대 클릭 수에 도달하면 등급 서클 표시 및 클릭 막음
+        if (clickCount == maxClickCount)
         {
-            GradeCircleSizeUp(); // 최대 클릭 수 도달 후 등급 서클 표시
-            clickCount = 0; // 클릭 카운트 초기화
+            GradeCircleSizeUp(); // 등급 서클을 크게 만듦
+            isGacha = false; // 더 이상 클릭할 수 없도록 설정
+        }
+    }
+
+    private void ChangeAcornColorByClickCount()
+    {
+        // 뽑힌 캐릭터의 등급 정보
+        CharGrade finalGrade = getCharaterInfos[getCharaterIndex].charGrade;
+
+        // 1번째 클릭에서는 무조건 커먼 색상
+        if (clickCount == 1)
+        {
+            SetAcornColor(CharGrade.Common);
+        }
+        // 2번째 클릭에서는 레어 이상일 경우 레어 색상
+        else if (clickCount == 2)
+        {
+            if (finalGrade == CharGrade.Rare || finalGrade == CharGrade.Epic)
+            {
+                SetAcornColor(CharGrade.Rare);
+            }
+            else
+            {
+                SetAcornColor(CharGrade.Common);
+            }
+        }
+        // 3번째 클릭에서는 뽑힌 캐릭터의 최종 등급 색상
+        else if (clickCount == 3)
+        {
+            SetAcornColor(finalGrade);
+            //isGacha = false;
         }
     }
 
     private void ShakeAcorn()
     {
         // 현재 로컬 회전 값을 저장합니다.
-        Vector3 currentRotation = Acorn.transform.localEulerAngles;
+        Vector3 currentRotation = acorn.transform.localEulerAngles;
 
         // y축을 기준으로 흔들림 각도 설정 (좌우 흔들림)
         float shakeAngle = 15f; // 흔들릴 각도 (기울기)
         float shakeDuration = 0.3f; // 흔들릴 시간
 
         // 좌우로 흔들리도록 로컬 회전을 설정합니다.
-        Acorn.transform.DOLocalRotate(new Vector3(currentRotation.x, currentRotation.y + shakeAngle, currentRotation.z), shakeDuration)
+        acorn.transform.DOLocalRotate(new Vector3(currentRotation.x, currentRotation.y + shakeAngle, currentRotation.z), shakeDuration)
             .SetEase(Ease.InOutSine)
             .SetLoops(2, LoopType.Yoyo)  // 왕복
             .OnComplete(() =>
             {
                 // 애니메이션이 끝나면 원래 각도로 되돌립니다.
-                Acorn.transform.localEulerAngles = currentRotation;
+                acorn.transform.localEulerAngles = currentRotation;
             });
     }
 
@@ -192,6 +231,28 @@ public class GachaManager : MonoBehaviour
         rateCircle.SetActive(true);
     }
 
+    private void SetAcornColor(CharGrade charGrade)
+    {
+        foreach (var gradeInfo in charGradeInfos)
+        {
+            if (gradeInfo.gradeName == charGrade.ToString())
+            {
+                MeshRenderer meshRenderer = acorn.GetComponentInChildren<MeshRenderer>();
+
+                if (meshRenderer != null)
+                {
+                    Material material = meshRenderer.material;
+                    if (material.HasProperty("_GlowColor"))
+                    {
+                        material.SetColor("_GlowColor", gradeInfo.color);
+                    }
+                }
+            }
+        }
+        getCharaterIndex = 0;
+        rateCircle.SetActive(true);
+    }
+
     private void GradeCircleSizeUp()
     {
         if (getCharaterIndex > getCharaterInfos.Count)
@@ -210,14 +271,10 @@ public class GachaManager : MonoBehaviour
         // 서클 초기 크기를 설정 (시작할 때 작은 크기에서 시작)
         rateCircleRect.localScale = Vector3.zero;
         rateCircleImage.color = new Color(rateCircleImage.color.r, rateCircleImage.color.g, rateCircleImage.color.b, 0);
-        backgroundPanelImage.color = new Color(0, 0, 0, 0);  // 투명한 검정색
+        backgroundPanelImage.color = new Color(0, 0, 0, 0); // 어두운 패널 투명도
 
-        // 배경을 어둡게 (1초 동안)
-        backgroundPanel.SetActive(true);
-        backgroundPanelImage.DOFade(0.5f, 1f);  // 반투명한 검정색으로 변화
-
-        // 서클을 점차적으로 화면을 덮을 만큼 크게 확대 (2초 동안) + 서서히 투명도 증가
-        rateCircleRect.DOScale(new Vector3(10f, 10f, 10f), 2f).SetEase(Ease.OutCubic);
-        rateCircleImage.DOFade(1f, 1f);
+        rateCircleRect.DOScale(8f, 0.4f).SetEase(Ease.OutBack); // 서클 크기 애니메이션
+        DOTween.ToAlpha(() => rateCircleImage.color, color => rateCircleImage.color = color, 1f, 0.2f); // 서클 알파값 애니메이션
+        DOTween.ToAlpha(() => backgroundPanelImage.color, color => backgroundPanelImage.color = color, 0.6f, 0.3f); // 어두운 배경 투명도 애니메이션
     }
 }
