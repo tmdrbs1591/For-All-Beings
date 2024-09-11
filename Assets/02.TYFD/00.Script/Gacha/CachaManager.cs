@@ -23,6 +23,8 @@ public class GachaManager : MonoBehaviour
     [SerializeField] private int getCharaterIndex = 0;
     [SerializeField] private int clickCount = 0; // 클릭 횟수를 기록
     [SerializeField] private int maxClickCount = 3; // 등급 표시 전 최대 클릭 횟수
+    [SerializeField] private Material acronDefultMaterial;
+    [SerializeField] private Material acornBlurMaterial;
 
     [Header("Particles")]
     [SerializeField] private ParticleSystem clickParticlePrefab;  // 파티클 프리팹
@@ -58,6 +60,7 @@ public class GachaManager : MonoBehaviour
     public void GachaOneTime()
     {
         getCharaterInfos.Add(RandomChar());
+        acorn.GetComponentInChildren<Renderer>().material = acronDefultMaterial;
         Debug.Log("선택된 캐릭터: " + getCharaterInfos[0].charName);
         SetGradeCircle(getCharaterInfos[0].charGrade);
         AcornDive();
@@ -238,6 +241,8 @@ public class GachaManager : MonoBehaviour
             if (gradeInfo.gradeName == charGrade.ToString())
             {
                 MeshRenderer meshRenderer = acorn.GetComponentInChildren<MeshRenderer>();
+
+                meshRenderer.material = acornBlurMaterial;
 
                 if (meshRenderer != null)
                 {
