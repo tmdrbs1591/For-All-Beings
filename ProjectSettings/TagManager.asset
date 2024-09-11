@@ -21,6 +21,7 @@ TagManager:
   - TutorialPoint
   - EventBox
   - Crystal
+  - CollaborationButton
   layers:
   - Default
   - TransparentFX

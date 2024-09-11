@@ -43,10 +43,16 @@ public class MeteoEvent : MonoBehaviourPun
 
     IEnumerator SpawnMeteos()
     {
+        int excludedIndex = Random.Range(0, meteoSpawnPos.Count); // 제외할 인덱스 결정
         while (spawnedMeteos < maxMeteos)
         {
             // 랜덤 인덱스를 서버에서 결정해서 모든 클라이언트에 전달
-            int randomIndex = Random.Range(0, meteoSpawnPos.Count);
+            int randomIndex;
+            do
+            {
+                randomIndex = Random.Range(0, meteoSpawnPos.Count);
+            } while (randomIndex == excludedIndex); // 제외할 인덱스를 제외
+
             photonView.RPC("SpawnMeteo", RpcTarget.All, randomIndex);
 
             // 1초 대기

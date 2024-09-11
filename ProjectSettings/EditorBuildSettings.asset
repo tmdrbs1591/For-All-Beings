@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Tutorial.unity
     guid: ae926ebe39cbd40469b0d95b74ef118c
   - enabled: 1
+    path: Assets/Scenes/GachaScene.unity
+    guid: fda39dab82c0cac4ea4c38755df8d88b
+  - enabled: 1
     path: Assets/Scenes/Title.unity
     guid: ea859f4290406a348b2e2370a98a31f8
   - enabled: 1
