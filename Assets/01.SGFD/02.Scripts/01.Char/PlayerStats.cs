@@ -40,11 +40,11 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     public float maxUltimategauge;
     public float currentUltimategauge;
 
-
     private float keyPressTime = 0f;
-    private  float requiredHoldTime = 3f;
+    private float requiredHoldTime = 3f;
 
     private PhotonView photonView;
+    private Rigidbody rb; // Rigidbody 변수 추가
 
     [SerializeField] public bool isDie;
 
@@ -52,6 +52,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     void Start()
     {
         photonView = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>(); // Rigidbody 컴포넌트 참조
         Player_XP();
     }
 
@@ -61,16 +62,14 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
         xpSlider.value = Mathf.Lerp(xpSlider.value, currentXp / xp, Time.deltaTime * 40f);
 
         if (ultimateBar != null)
-        ultimateBar.value = Mathf.Lerp(ultimateBar.value, currentUltimategauge / maxUltimategauge, Time.deltaTime * 40f);
+            ultimateBar.value = Mathf.Lerp(ultimateBar.value, currentUltimategauge / maxUltimategauge, Time.deltaTime * 40f);
 
         levelText.text = "LV." + playerLevel.ToString();
         xpText.text = currentXp + "/" + xp;
 
         photonView.RPC("Die", RpcTarget.AllBuffered);
 
-       reSpawnBar.value = keyPressTime / requiredHoldTime;
-
-
+        reSpawnBar.value = keyPressTime / requiredHoldTime;
 
         if (currentUltimategauge >= maxUltimategauge) ultimateReadyUI.SetActive(true);
         else ultimateReadyUI.SetActive(false);
@@ -85,10 +84,19 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             originalMesh.SetActive(false);
             stoneGraveMesh.SetActive(true);
             diePanel.SetActive(true);
+
+            // Rigidbody의 모든 물리적인 속성을 프리즈
+            if (rb != null)
+            {
+                rb.isKinematic = true; // 물리 계산을 중지
+                rb.velocity = Vector3.zero; // 현재 속도를 0으로 설정
+                rb.angularVelocity = Vector3.zero; // 현재 각속도를 0으로 설정
+            }
         }
     }
+
     [PunRPC]
-   public void ReSpawn()
+    public void ReSpawn()
     {
         if (curHp <= 0)
         {
@@ -97,6 +105,12 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             stoneGraveMesh.SetActive(false);
             diePanel.SetActive(false);
             curHp = 10;
+
+            // Rigidbody의 물리적인 속성을 복구
+            if (rb != null)
+            {
+                rb.isKinematic = false; // 물리 계산을 재개
+            }
         }
     }
 
@@ -119,11 +133,13 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             uiLevelUp.Show();
         }
     }
+
     [PunRPC]
     public void IncreaseHealth(float amount)
     {
         curHp += amount;
     }
+
     [PunRPC]
     void UpdatePlayerStats(int level, float currentXp, float xp)
     {
@@ -151,52 +167,51 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             xp = (float)stream.ReceiveNext();
         }
     }
+
     [PunRPC]
     public void TakeDamage(int damage)
     {
-        if (!isDie) { 
-        curHp -= damage;
-        StartCoroutine(HitPanelCor());
+        if (!isDie)
+        {
+            curHp -= damage;
+            StartCoroutine(HitPanelCor());
         }
     }
+
     public IEnumerator HitPanelCor()
     {
-
         CameraShake.instance.Shake();
         hitPanel.SetActive(true);
         yield return new WaitForSeconds(0.2f);
         hitPanel.SetActive(false);
-
     }
+
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") )
+        if (collision.gameObject.CompareTag("Player"))
         {
             var playerStats = collision.gameObject.GetComponent<PlayerStats>();
 
-         
-                if (Input.GetKey(KeyCode.F))
-                {
-                    playerStats.reSpawnBar.gameObject.SetActive(true);
-                    keyPressTime += Time.deltaTime; // "C" 키가 눌릴 때마다 타이머 증가\
+            if (Input.GetKey(KeyCode.F))
+            {
+                playerStats.reSpawnBar.gameObject.SetActive(true);
+                keyPressTime += Time.deltaTime; // "C" 키가 눌릴 때마다 타이머 증가
 
-
-                    // 타이머가 3초 이상 되면 PerformAction 메서드를 호출
-                    if (keyPressTime >= requiredHoldTime)
-                    {
-                        playerStats.photonView.RPC("ReSpawn", RpcTarget.All);
-                        keyPressTime = 0f; // 액션 수행 후 타이머 초기화
-                    }
-                }
-                else
+                // 타이머가 3초 이상 되면 PerformAction 메서드를 호출
+                if (keyPressTime >= requiredHoldTime)
                 {
-                    // "C" 키가 놓이면 타이머를 초기화
-                    keyPressTime = 0f;
+                    playerStats.photonView.RPC("ReSpawn", RpcTarget.All);
+                    keyPressTime = 0f; // 액션 수행 후 타이머 초기화
                 }
-            
+            }
+            else
+            {
+                // "C" 키가 놓이면 타이머를 초기화
+                keyPressTime = 0f;
+            }
         }
     }
-  
+
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -206,7 +221,6 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             keyPressTime = 0f; // 타이머를 초기화
         }
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -227,5 +241,4 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             }
         }
     }
-
 }

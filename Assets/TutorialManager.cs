@@ -208,7 +208,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(2f);
         Text("다람쥐를 도와주자!");
         yield return new WaitForSeconds(2f);
-        Text("C를 눌러 도토리를 줍고 바구니에 넣을 수 있어!");
+        Text("[F]를 눌러 도토리를 줍고 바구니에 넣을 수 있어!");
         yield return new WaitForSeconds(2f);
 
         messagePanel.SetActive(false);
