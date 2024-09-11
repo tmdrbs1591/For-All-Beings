@@ -36,11 +36,14 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     if (!isHold)
                     {
-                        KeyUI.SetActive(true);
+                        if (photonView.IsMine)
+                            KeyUI.SetActive(true);
                     }
                     if (Input.GetKeyDown(KeyCode.F) && !isHold)
                     {
-                        KeyUI.SetActive(false);
+                        if (photonView.IsMine)
+                            KeyUI.SetActive(false);
+
                         isHold = true;
                         heldObject = collider.gameObject;
                         photonView.RPC("SyncAcornPickup", RpcTarget.AllBuffered, pv.ViewID);
@@ -51,12 +54,14 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     if (isHold)
                     {
-                        KeyUI.SetActive(true);
+                        if (photonView.IsMine)
+                            KeyUI.SetActive(true);
                     }
 
                     if (Input.GetKeyDown(KeyCode.F) && isHold)
                     {
-                        KeyUI.SetActive(false);
+                        if (photonView.IsMine)
+                            KeyUI.SetActive(false);
                         isHold = false;
                         photonView.RPC("SyncAcornDrop", RpcTarget.AllBuffered, heldObject.GetComponent<PhotonView>().ViewID, pv.ViewID);
                         heldObject = null;

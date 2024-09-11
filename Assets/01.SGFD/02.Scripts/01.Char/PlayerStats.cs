@@ -175,7 +175,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             var playerStats = collision.gameObject.GetComponent<PlayerStats>();
 
          
-                if (Input.GetKey(KeyCode.C))
+                if (Input.GetKey(KeyCode.F))
                 {
                     playerStats.reSpawnBar.gameObject.SetActive(true);
                     keyPressTime += Time.deltaTime; // "C" 키가 눌릴 때마다 타이머 증가\
@@ -212,6 +212,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     {
         if (other.gameObject.CompareTag("Portal"))
         {
+            if (photonView.IsMine)
                 KeyUI.SetActive(true);
         }
     }
@@ -220,7 +221,10 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     {
         if (other.gameObject.CompareTag("Portal"))
         {
-            KeyUI.SetActive(false);
+            if (photonView.IsMine)
+            {
+                KeyUI.SetActive(false);
+            }
         }
     }
 
