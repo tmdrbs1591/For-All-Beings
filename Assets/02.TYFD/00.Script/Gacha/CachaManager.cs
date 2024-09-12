@@ -20,6 +20,7 @@ public class GachaManager : MonoBehaviour
     [SerializeField] private GameObject backgroundPanel; // 어두운 배경 패널
     [SerializeField] private List<CharGradeInfo> charGradeInfos = new List<CharGradeInfo>();
     [SerializeField] private bool isGacha = false;
+    [SerializeField] private bool isResult = false;
     [SerializeField] private int getCharaterIndex = 0;
     [SerializeField] private int clickCount = 0; // 클릭 횟수를 기록
     [SerializeField] private int maxClickCount = 3; // 등급 표시 전 최대 클릭 횟수
@@ -29,11 +30,21 @@ public class GachaManager : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private ParticleSystem clickParticlePrefab;  // 파티클 프리팹
 
+    [Header("ResultChar")]
+    [SerializeField] private GameObject resultPanelObj;
+    [SerializeField] private Transform gridParent; 
+    [SerializeField] private List<GameObject> resultCharImages = new List<GameObject>();
+    [SerializeField] private CharGrade bestGrade = CharGrade.Common;
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && isGacha)
         {
             HandleClick();
+        }
+        if (Input.GetMouseButtonDown(0) && isResult)
+        {
+            InitGacha();
         }
     }
 
@@ -65,10 +76,8 @@ public class GachaManager : MonoBehaviour
     // 한 번 뽑기 함수
     public void GachaOneTime()
     {
-        SetGradeCircle(getCharaterInfos[0].charGrade);
         AcornDive();
         PlayGacha();
-        //Debug.Log("선택된 캐릭터: " + getCharaterInfos[0].charName);
     }
 
     // 10번 뽑기 함수
@@ -81,17 +90,23 @@ public class GachaManager : MonoBehaviour
             PlayGacha();
         }
 
-        CharGrade bestCharGrade = CharGrade.Common;
-
-        foreach(GachaCharacterInfo c in getCharaterInfos)
+        foreach(GachaCharacterInfo c in characterInfos)
         {
-            if(bestCharGrade > c.charGrade)
+            if(c.charGrade < bestGrade)
             {
-                bestCharGrade = c.charGrade;
+                bestGrade = c.charGrade;
             }
         }
+    }
 
-        SetGradeCircle(bestCharGrade);
+    IEnumerator ResultCharaterImageSpawn()
+    {
+        foreach(GachaCharacterInfo c in getCharaterInfos)
+        {
+            yield return new WaitForSeconds(0.3f);
+            resultCharImages.Add(Instantiate(c.charImage, gridParent));
+        }
+        isResult = true;
     }
 
     // 총 가중치 계산 및 초기화
@@ -174,7 +189,7 @@ public class GachaManager : MonoBehaviour
         // 최대 클릭 수에 도달하면 등급 서클 표시 및 클릭 막음
         if (clickCount == maxClickCount)
         {
-            GradeCircleSizeUp(); // 등급 서클을 크게 만듦
+            StartCoroutine(blurCircleSizeUpCoroutine()); // 등급 서클을 크게 만듦
             isGacha = false; // 더 이상 클릭할 수 없도록 설정
         }
     }
@@ -182,7 +197,7 @@ public class GachaManager : MonoBehaviour
     private void ChangeAcornColorByClickCount()
     {
         // 뽑힌 캐릭터의 등급 정보
-        CharGrade finalGrade = getCharaterInfos[getCharaterIndex].charGrade;
+        CharGrade finalGrade = bestGrade;
 
         // 1번째 클릭에서는 무조건 커먼 색상
         if (clickCount == 1)
@@ -240,20 +255,7 @@ public class GachaManager : MonoBehaviour
         Instantiate(clickParticlePrefab, worldPosition, Quaternion.identity);
     }
 
-    private void SetGradeCircle(CharGrade charGrade)
-    {
-        foreach (var gradeInfo in charGradeInfos)
-        {
-            if (gradeInfo.gradeName == charGrade.ToString())
-            {
-                rateCircle.GetComponent<Image>().color = gradeInfo.color;
-            }
-        }
-        getCharaterIndex = 0;
-        rateCircle.SetActive(true);
-    }
-
-    private void SetAcornColor(CharGrade charGrade)
+        private void SetAcornColor(CharGrade charGrade)
     {
         foreach (var gradeInfo in charGradeInfos)
         {
@@ -274,19 +276,20 @@ public class GachaManager : MonoBehaviour
             }
         }
         getCharaterIndex = 0;
-        rateCircle.SetActive(true);
+        //rateCircle.SetActive(true);
     }
 
-    private void GradeCircleSizeUp()
+    private IEnumerator blurCircleSizeUpCoroutine()
     {
-        if (getCharaterIndex > getCharaterInfos.Count)
+        if (getCharaterIndex >= getCharaterInfos.Count)
         {
             getCharaterIndex = 0;
-            return;
+            yield break;
         }
 
+        rateCircle.SetActive(true);
+
         GachaCharacterInfo selectedCharacter = getCharaterInfos[getCharaterIndex];
-        SetGradeCircle(selectedCharacter.charGrade);
 
         RectTransform rateCircleRect = rateCircle.GetComponent<RectTransform>();
         Image rateCircleImage = rateCircle.GetComponent<Image>();
@@ -297,8 +300,82 @@ public class GachaManager : MonoBehaviour
         rateCircleImage.color = new Color(rateCircleImage.color.r, rateCircleImage.color.g, rateCircleImage.color.b, 0);
         backgroundPanelImage.color = new Color(0, 0, 0, 0); // 어두운 패널 투명도
 
-        rateCircleRect.DOScale(8f, 0.4f).SetEase(Ease.OutBack); // 서클 크기 애니메이션
-        DOTween.ToAlpha(() => rateCircleImage.color, color => rateCircleImage.color = color, 1f, 0.2f); // 서클 알파값 애니메이션
-        DOTween.ToAlpha(() => backgroundPanelImage.color, color => backgroundPanelImage.color = color, 0.6f, 0.3f); // 어두운 배경 투명도 애니메이션
+        // 서클 알파값 애니메이션
+        yield return DOTween.ToAlpha(() => rateCircleImage.color, color => rateCircleImage.color = color, 1f, 0.2f).WaitForCompletion();
+
+        // 어두운 배경 투명도 애니메이션
+        yield return DOTween.ToAlpha(() => backgroundPanelImage.color, color => backgroundPanelImage.color = color, 0.6f, 0.3f).WaitForCompletion();
+
+        // 서클 크기 애니메이션
+        yield return rateCircleRect.DOScale(10f, 0.7f).SetEase(Ease.OutBack).WaitForCompletion();
+
+        // Glow Intensity 값을 0으로 줄이기 위한 애니메이션 추가
+        Material rateCircleMaterial = rateCircle.GetComponent<Image>().material; // Material 가져오기
+        float currentGlowIntensity = rateCircleMaterial.GetFloat("_GlowIntensity");
+
+        // Glow Intensity를 0으로 애니메이션 처리
+        yield return DOTween.To(() => currentGlowIntensity, x => rateCircleMaterial.SetFloat("_GlowIntensity", x), 1f, 0.5f).WaitForCompletion();
+        // Glow Intensity가 0이 된 후 OnGradeCircleAnimationComplete 실행
+        OnGradeCircleAnimationComplete();
     }
+
+
+    // 애니메이션이 끝난 후 실행할 기능을 정의하는 함수
+    private void OnGradeCircleAnimationComplete()
+    {
+        resultPanelObj.SetActive(true);
+        acorn.SetActive(false);
+        rateCircle.SetActive(false);
+        StartCoroutine(ResultCharaterImageSpawn());
+    }
+
+    private void InitGacha()
+    {
+        // 1. 뽑기 상태 초기화
+        isGacha = false;
+        isResult = false;
+
+        // 2. 클릭 횟수 초기화
+        clickCount = 0;
+
+        // 3. 뽑힌 캐릭터 인덱스 초기화
+        getCharaterIndex = 0;
+
+        // 4. 도토리 위치 초기화
+        acorn.transform.position = acornStartPos.transform.position;
+
+        // 5. 도토리 색상 초기화 (기본 상태)
+        acorn.GetComponentInChildren<Renderer>().material = acronDefultMaterial;
+
+        // 6. 배경 패널 및 등급 서클 초기화
+        backgroundPanel.SetActive(false); // 어두운 배경 비활성화
+        rateCircle.SetActive(false);      // 등급 서클 비활성화
+
+        // 7. 결과 패널 초기화
+        gachaPanel.SetActive(false);
+        resultPanelObj.SetActive(false);  // 결과 패널 비활성화
+
+        // 8. 결과 캐릭터 이미지 초기화
+        foreach (var resultCharImage in resultCharImages)
+        {
+            Destroy(resultCharImage);  // 이전 결과 캐릭터 이미지 제거
+        }
+        resultCharImages.Clear();  // 리스트도 초기화
+
+        // 10. 캐릭터 정보 리스트 초기화 (필요 시)
+        getCharaterInfos.Clear();  // 뽑힌 캐릭터 리스트 초기화
+
+        // 11. rateCircle Blur 값 초기화 (블러 값을 기본 값으로 설정)
+        Material rateCircleMaterial = rateCircle.GetComponent<Image>().material;
+
+        // 12. rateCircle GlowIntensity 초기화
+        if (rateCircleMaterial.HasProperty("_GlowIntensity"))
+        {
+            rateCircleMaterial.SetFloat("_GlowIntensity", 10);  // GlowIntensity를 초기화
+        }
+
+        // 13. 뽑은 최고 등급 초기화
+        bestGrade = CharGrade.Common;
+    }
+
 }
