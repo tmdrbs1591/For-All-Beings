@@ -326,10 +326,10 @@ public class GachaManager : MonoBehaviour
         backgroundPanelImage.color = new Color(0, 0, 0, 0); // 어두운 패널 투명도
 
         // 서클 알파값 애니메이션
-        yield return DOTween.ToAlpha(() => rateCircleImage.color, color => rateCircleImage.color = color, 1f, 0.2f).WaitForCompletion();
+        DOTween.ToAlpha(() => rateCircleImage.color, color => rateCircleImage.color = color, 1f, 0.2f);
 
         // 어두운 배경 투명도 애니메이션
-        yield return DOTween.ToAlpha(() => backgroundPanelImage.color, color => backgroundPanelImage.color = color, 0.6f, 0.3f).WaitForCompletion();
+        DOTween.ToAlpha(() => backgroundPanelImage.color, color => backgroundPanelImage.color = color, 0.6f, 0.3f);
 
         // 서클 크기 애니메이션
         yield return rateCircleRect.DOScale(10f, 0.7f).SetEase(Ease.OutBack).WaitForCompletion();
