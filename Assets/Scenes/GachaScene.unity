@@ -4128,6 +4128,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4d5fe622578f59e45b312ceb78fa6f40, type: 3}
   - {fileID: 8300000, guid: 6fbe21fb472d1254fa6f75d3e031940d, type: 3}
   - {fileID: 8300000, guid: 9506696ec7dc36b4bbb8f6b618608a49, type: 3}
+  - {fileID: 8300000, guid: 6c1980b696156364fb1f0e97eb70a0b1, type: 3}
   songs: []
   audioObject: {fileID: 7794724503542147258, guid: 1545f9b2ec6da0d448bdffcffce94dcd,
     type: 3}
