@@ -25,7 +25,12 @@ public class TutorialChar : MonoBehaviour
             TutorialManager.instance.EventTutorial();
             Destroy(other.gameObject);
         }
-
+        if (other.gameObject.CompareTag("ShopEventBox"))
+        {
+            Debug.Log("asdasd");
+            TutorialManager.instance.ShopEventTutorial();
+            Destroy(other.gameObject);
+        }
     }
 
 }

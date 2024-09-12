@@ -22,6 +22,7 @@ TagManager:
   - EventBox
   - Crystal
   - CollaborationButton
+  - ShopEventBox
   layers:
   - Default
   - TransparentFX

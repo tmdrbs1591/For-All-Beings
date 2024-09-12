@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
+using TMPro;
+
 public class TutorialManager : MonoBehaviourPunCallbacks
 {
     public static TutorialManager instance;
@@ -9,9 +12,15 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     private PlayerCtrl playerController; // PlayerController 스크립트의 참조를 저장할 변수
     private PlayerStats playerStats; // PlayerController 스크립트의 참조를 저장할 변수
 
+    [SerializeField] AudioSource audioSource;
+
     [SerializeField] GameObject monsterPrefabs;
     [SerializeField] Transform[] monsterSpawnPoint;
     [SerializeField] GameObject portal;
+    [SerializeField] GameObject guidePanel;
+
+    [SerializeField] Toggle questtoggle;
+    [SerializeField] public TMP_Text questText;
 
     Animator anim;
 
@@ -25,6 +34,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         instance = this;
         // Player 태그를 가진 게임 오브젝트를 찾습니다.
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -84,6 +94,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         // 대기 시간
         yield return new WaitForSeconds(3f);
 
+
          Text("안녕 반가워!");
         yield return new WaitForSeconds(2f);
         Text("기본적인 게임 방식을 배워보자 !");
@@ -93,6 +104,9 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         Text("앞에 목표 지점까지 이동해봐!");
         yield return new WaitForSeconds(2f);
         messagePanel.SetActive(false);
+
+        questText.text = "목표 지점까지 이동하기";
+
         playerController.enabled = true;
 
     }
@@ -111,6 +125,8 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     }
     public IEnumerator MoveTutorialCor()
     {
+        questtoggle.isOn = true;
+
         playerController.enabled = false;
         Text("잘했어!");
         yield return new WaitForSeconds(2f);
@@ -122,37 +138,55 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(2f);
         isMoveTutorialClear = true;
         messagePanel.SetActive(false);
+
+        questtoggle.isOn = false;
+
+        questText.text = "마우스 좌클릭을 눌러 공격하기";
+
+
         playerController.enabled = true ;
     }
 
     public IEnumerator AttackTutorialCor()
     {
+        questtoggle.isOn = true;
+
         yield return new WaitForSeconds(2f);
         anim.SetBool("isWalk", false);
 
         playerController.enabled = false;
         Text("좋았어!");
         yield return new WaitForSeconds(2f);
-        Text("Q를 눌러 스킬을 사용할 수 있어!!");
+        Text("[Q]를 눌러 스킬을 사용할 수 있어!!");
         yield return new WaitForSeconds(2f);
         messagePanel.SetActive(false);
         playerController.enabled = true;
+
+        questtoggle.isOn = false;
+
+        questText.text = "[Q]를 눌러 스킬 사용하기";
 
         isAttackTutorialClear = true;
     }
 
     public IEnumerator SkillTutorialCor()
     {
+        questtoggle.isOn = true;
         yield return new WaitForSeconds(2f);
         anim.SetBool("isWalk", false);
 
         playerController.enabled = false;
         Text("좋았어!");
         yield return new WaitForSeconds(2f);
-        Text("Space를 눌러 궁극기를 사용할 수있어!");
+        Text("[Space]를 눌러 궁극기를 사용할 수있어!");
         yield return new WaitForSeconds(2f);
         messagePanel.SetActive(false);
         playerController.enabled = true;
+
+        questText.text = "[Space]를 눌러 궁극기 사용하기";
+
+
+        questtoggle.isOn = false;
 
         isSkillTutorialClear = true;
 
@@ -160,6 +194,8 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     public IEnumerator SkillUltimateCor()
     {
+        questtoggle.isOn = true;
+
         yield return new WaitForSeconds(5f);
         anim.SetBool("isWalk", false);
 
@@ -171,10 +207,16 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         messagePanel.SetActive(false);
         playerController.enabled = true;
 
+        questText.text =  "모든 적 처치하기 " + monsterkillCount +"/ 4";
+
+        questtoggle.isOn = false;
+
         MonsterSpawn();
     }
     public IEnumerator PortalCor()
     {
+        questtoggle.isOn = true;
+
         yield return new WaitForSeconds(1f);
         anim.SetBool("isWalk", false);
 
@@ -185,6 +227,12 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(2f);
         messagePanel.SetActive(false);
         playerController.enabled = true;
+
+        questText.text = "포탈 들어가기";
+
+
+        questtoggle.isOn = false;
+
 
     }
     void MonsterSpawn()
@@ -200,6 +248,9 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     }
     IEnumerator EventTutorialCor()
     {
+
+        questtoggle.isOn = true;
+
         yield return new WaitForSeconds(1f);
         anim.SetBool("isWalk", false);
 
@@ -211,7 +262,61 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         Text("[F]를 눌러 도토리를 줍고 바구니에 넣을 수 있어!");
         yield return new WaitForSeconds(2f);
 
+        questText.text = "다람쥐 도와주기";
+
         messagePanel.SetActive(false);
         playerController.enabled = true;
+
+        questtoggle.isOn = false;
+    }
+    public void ShopEventTutorial()
+    {
+        StartCoroutine(ShopEventTutorialCor());
+    }
+    IEnumerator ShopEventTutorialCor()
+    {
+        questtoggle.isOn = true;
+
+        yield return new WaitForSeconds(1f);
+        anim.SetBool("isWalk", false);
+
+        playerController.enabled = false;
+        Text("상점이야!");
+        yield return new WaitForSeconds(2f);
+        Text("[F]를 눌러 상점을 열고 구매해보자!");
+        yield return new WaitForSeconds(2f);
+
+        messagePanel.SetActive(false);
+        playerController.enabled = true;
+
+        questText.text = "아이템 구매하기";
+
+
+        questtoggle.isOn = false;
+
+    }
+
+    public void LastEventTutorial()
+    {
+        StartCoroutine(LastEventTutorialCor());
+    }
+    IEnumerator LastEventTutorialCor()
+    {
+        questtoggle.isOn = true;
+
+        yield return new WaitForSeconds(1f);
+        anim.SetBool("isWalk", false);
+
+        playerController.enabled = false;
+        Text("좋았어!");
+        yield return new WaitForSeconds(2f);
+        Text("수고했어!");
+        yield return new WaitForSeconds(2f);
+
+        messagePanel.SetActive(false);
+
+        guidePanel.SetActive(true);
+
+
     }
 }

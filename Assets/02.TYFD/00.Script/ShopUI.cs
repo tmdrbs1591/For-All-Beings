@@ -49,6 +49,8 @@ public class ShopUI : MonoBehaviour
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);
 
             UseGolde(30);
+
+            TutorialManager.instance.LastEventTutorial();
         }
     }
 
@@ -68,7 +70,10 @@ public class ShopUI : MonoBehaviour
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);
             UseGolde(5);
 
+            TutorialManager.instance.LastEventTutorial();
+
         }
+
     }
     private void HealthpotionItemAdd()
     {
@@ -85,6 +90,9 @@ public class ShopUI : MonoBehaviour
             // 인벤토리에 아이템 추가
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);
             UseGolde(10);
+
+            TutorialManager.instance.LastEventTutorial();
+
 
         }
     }

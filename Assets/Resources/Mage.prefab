@@ -19097,6 +19097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isShop: 0
+  KeyUI: {fileID: 7351822833487076702}
 --- !u!114 &8874632154695400567
 MonoBehaviour:
   m_ObjectHideFlags: 0

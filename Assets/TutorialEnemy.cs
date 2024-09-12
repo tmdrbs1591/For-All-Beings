@@ -19,5 +19,6 @@ public class TutorialEnemy : MonoBehaviour
     private void OnDestroy()
     {
         TutorialManager.instance.monsterkillCount++;
+        TutorialManager.instance.questText.text = "모든 적 처치하기 " + TutorialManager.instance.monsterkillCount + "/ 4";
     }
 }

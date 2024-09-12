@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShop : MonoBehaviour
+public class PlayerShop : MonoBehaviourPunCallbacks
 {
     private ShopUI shopUI; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public bool isShop;    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     private PlayerCtrl playerCtrl;
     private ArcherCtrl archerCtrl;
     private DragoonCtrl dragoonCtrl;
+    [SerializeField] public GameObject KeyUI;
 
     private void Awake()
     {
@@ -22,9 +23,10 @@ public class PlayerShop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C) && isShop) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (Input.GetKeyDown(KeyCode.F) && isShop) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
             ToggleShop();
+
         }
     }
 
@@ -86,6 +88,8 @@ public class PlayerShop : MonoBehaviour
         if (other.gameObject.CompareTag("Shop"))
         {
             isShop = true;
+            if (photonView.IsMine)
+                KeyUI.SetActive(true);
         }
     }
 
@@ -93,6 +97,8 @@ public class PlayerShop : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Shop"))
         {
+            if (photonView.IsMine)
+                KeyUI.SetActive(false);
             isShop = false;
             if (playerCtrl != null)
             {
