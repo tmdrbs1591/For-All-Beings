@@ -8,12 +8,17 @@ public class ShopUI : MonoBehaviour
     public Button increaseGrenadeButton;
     public Button increaseAppleButton;
     public Button increaseHealthPotionButton;
+    public Button attackPowerUpButton;
+    public Button attacSpeedUpButton;
+    public Button moveSpeedUPButton;
 
 
     public ItemSO GrenadeToAdd;
     public ItemSO AppleToAdd;
     public ItemSO HealthPotionToAdd;
 
+
+    [SerializeField] PlayerStats playerstat;
 
     [SerializeField]
     private InventorySO inventoryData;
@@ -26,6 +31,10 @@ public class ShopUI : MonoBehaviour
         increaseGrenadeButton.onClick.AddListener(GrenadItemAdd);  // 버튼 클릭 시 아이템 추가 메서드 호출
         increaseAppleButton.onClick.AddListener(AppleItemAdd);  // 버튼 클릭 시 아이템 추가 메서드 호출
         increaseHealthPotionButton.onClick.AddListener(HealthpotionItemAdd);  // 버튼 클릭 시 아이템 추가 메서드 호출
+
+        attackPowerUpButton.onClick.AddListener(AttackPowerUpAdd);  // 버튼 클릭 시 아이템 추가 메서드 호출
+        attacSpeedUpButton.onClick.AddListener(AttackSpeedUpAdd);  // 버튼 클릭 시 아이템 추가 메서드 호출
+        moveSpeedUPButton.onClick.AddListener(MoveSpeedUpAdd);  // 버튼 클릭 시 아이템 추가 메서드 호출
     }
 
     public void ToggleShop()
@@ -33,6 +42,44 @@ public class ShopUI : MonoBehaviour
         gameObject.SetActive(!gameObject.activeSelf);
     }
 
+    private void AttackPowerUpAdd()
+    {
+        if (GrenadeToAdd != null && playerGold.coin >= 30)
+        {
+
+            playerstat.attackPower += 10;
+
+            UseGolde(30);
+
+            TutorialManager.instance.LastEventTutorial();
+        }
+    }
+
+    private void AttackSpeedUpAdd()
+    {
+        if (GrenadeToAdd != null && playerGold.coin >= 30)
+        {
+
+            playerstat.attackCoolTime += 0.05f;
+
+            UseGolde(30);
+
+            TutorialManager.instance.LastEventTutorial();
+        }
+    }
+
+    private void MoveSpeedUpAdd()
+    {
+        if (GrenadeToAdd != null && playerGold.coin >= 30)
+        {
+
+            playerstat.speed += 1f;
+
+            UseGolde(30);
+
+            TutorialManager.instance.LastEventTutorial();
+        }
+    }
     private void GrenadItemAdd()
     {
         if (GrenadeToAdd != null && playerGold.coin >= 30)
@@ -44,6 +91,7 @@ public class ShopUI : MonoBehaviour
                 quantity = 1,  // 추가할 수량 (기본값: 1)
                 itemState = new List<ItemParameter>()  // 기본 아이템 상태 설정 (필요에 따라 수정 가능)
             };
+            SingleAudioManager.instance.PlaySound(transform.position, 15, UnityEngine.Random.Range(1f, 1.5f), 1f);
 
             // 인벤토리에 아이템 추가
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);
@@ -65,6 +113,7 @@ public class ShopUI : MonoBehaviour
                 quantity = 1,  // 추가할 수량 (기본값: 1)
                 itemState = new List<ItemParameter>()  // 기본 아이템 상태 설정 (필요에 따라 수정 가능)
             };
+            SingleAudioManager.instance.PlaySound(transform.position, 15, UnityEngine.Random.Range(1f, 1.5f), 1f);
 
             // 인벤토리에 아이템 추가
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);
@@ -86,6 +135,7 @@ public class ShopUI : MonoBehaviour
                 quantity = 1,  // 추가할 수량 (기본값: 1)
                 itemState = new List<ItemParameter>()  // 기본 아이템 상태 설정 (필요에 따라 수정 가능)
             };
+            SingleAudioManager.instance.PlaySound(transform.position, 15, UnityEngine.Random.Range(1f, 1.5f), 1f);
 
             // 인벤토리에 아이템 추가
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);

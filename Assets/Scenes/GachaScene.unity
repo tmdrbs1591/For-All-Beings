@@ -7897,7 +7897,7 @@ MonoBehaviour:
   - gradeName: Common
     color: {r: 1, g: 0.70761514, b: 0, a: 1}
   - gradeName: Rare
-    color: {r: 0, g: 0.51205397, b: 1, a: 1}
+    color: {r: 0, g: 1, b: 0.081615925, a: 1}
   - gradeName: Epic
     color: {r: 0.6554227, g: 0, b: 1, a: 1}
   isGacha: 0
