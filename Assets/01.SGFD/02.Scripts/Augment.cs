@@ -56,7 +56,7 @@ public class Augment : MonoBehaviour
                 break;
             case AugmentData.AugmentType.AttackSpeed:
                 Debug.Log("attackspeedUp");
-                playerStats.attackCoolTime -= 0.05f;
+                playerStats.attackCoolTime -= 0.03f;
                 break;
             case AugmentData.AugmentType.Glove:
                 break;
