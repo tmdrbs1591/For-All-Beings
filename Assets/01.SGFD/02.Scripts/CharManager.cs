@@ -25,17 +25,25 @@ public class CharManager : MonoBehaviour
     public void CharChangeKnight()
     {
         currentCharacter = Character.Knight;
+
+        Debug.Log("기사 선택");
     }
     public void CharChangeArcher()
     {
         currentCharacter = Character.Archer;
+        Debug.Log("궁수 선택");
+
     }
     public void CharChangeDragoon()
     {
         currentCharacter = Character.Dragoon;
+        Debug.Log("용기사 선택");
+
     }
     public void CharChangeMage()
     {
         currentCharacter = Character.Mage;
+        Debug.Log("마법사 선택");
+
     }
 }

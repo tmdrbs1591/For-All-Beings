@@ -25359,8 +25359,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 641672945}
-        m_TargetAssemblyTypeName: CharManager, Assembly-CSharp
+      - m_Target: {fileID: 87979746}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
         m_MethodName: CharChangeMage
         m_Mode: 1
         m_Arguments:
@@ -37047,7 +37047,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: 2685273.2}
+  m_AnchoredPosition: {x: -10, y: 2710132.2}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2009905255
@@ -39429,8 +39429,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 641672945}
-        m_TargetAssemblyTypeName: CharManager, Assembly-CSharp
+      - m_Target: {fileID: 87979746}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
         m_MethodName: CharChangeKnight
         m_Mode: 1
         m_Arguments:
@@ -39614,8 +39614,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 641672945}
-        m_TargetAssemblyTypeName: CharManager, Assembly-CSharp
+      - m_Target: {fileID: 87979746}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
         m_MethodName: CharChangeArcher
         m_Mode: 1
         m_Arguments:
@@ -39853,8 +39853,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 641672945}
-        m_TargetAssemblyTypeName: CharManager, Assembly-CSharp
+      - m_Target: {fileID: 87979746}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
         m_MethodName: CharChangeDragoon
         m_Mode: 1
         m_Arguments:
