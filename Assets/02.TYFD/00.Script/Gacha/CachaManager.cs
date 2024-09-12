@@ -82,6 +82,7 @@ public class GachaManager : MonoBehaviour
     {
         AcornDive();
         PlayGacha();
+        bestGrade = getCharaterInfos[0].charGrade;
     }
 
     // 10번 뽑기 함수
@@ -94,7 +95,7 @@ public class GachaManager : MonoBehaviour
             PlayGacha();
         }
 
-        foreach(GachaCharacterInfo c in characterInfos)
+        foreach(GachaCharacterInfo c in getCharaterInfos)
         {
             if(c.charGrade < bestGrade)
             {
@@ -241,14 +242,11 @@ public class GachaManager : MonoBehaviour
             {
                 SetAcornColor(CharGrade.Rare);
             }
-            else
-            {
-                SetAcornColor(CharGrade.Common);
-            }
         }
         // 3번째 클릭에서는 뽑힌 캐릭터의 최종 등급 색상
         else if (clickCount == 3)
         {
+            if(finalGrade == CharGrade.Epic)
             SetAcornColor(finalGrade);
             //isGacha = false;
         }
