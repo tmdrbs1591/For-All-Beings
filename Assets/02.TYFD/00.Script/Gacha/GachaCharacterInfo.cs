@@ -13,7 +13,7 @@ public enum CharGrade
 public class GachaCharacterInfo
 {
     public string charName;
-    public Sprite charImage;
+    public GameObject charImage;
     public CharGrade charGrade;
     public float weight;
 

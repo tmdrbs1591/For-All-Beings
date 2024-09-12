@@ -56,23 +56,42 @@ public class GachaManager : MonoBehaviour
         return characterInfos[0];
     }
 
-    // 한 번 뽑기 함수
-    public void GachaOneTime()
+    public void PlayGacha()
     {
         getCharaterInfos.Add(RandomChar());
         acorn.GetComponentInChildren<Renderer>().material = acronDefultMaterial;
-        Debug.Log("선택된 캐릭터: " + getCharaterInfos[0].charName);
+    }
+
+    // 한 번 뽑기 함수
+    public void GachaOneTime()
+    {
         SetGradeCircle(getCharaterInfos[0].charGrade);
         AcornDive();
+        PlayGacha();
+        //Debug.Log("선택된 캐릭터: " + getCharaterInfos[0].charName);
     }
 
     // 10번 뽑기 함수
     public void GachaTenTime()
     {
+        AcornDive();
+
         for (int i = 0; i < 10; i++)
         {
-            GachaOneTime();
+            PlayGacha();
         }
+
+        CharGrade bestCharGrade = CharGrade.Common;
+
+        foreach(GachaCharacterInfo c in getCharaterInfos)
+        {
+            if(bestCharGrade > c.charGrade)
+            {
+                bestCharGrade = c.charGrade;
+            }
+        }
+
+        SetGradeCircle(bestCharGrade);
     }
 
     // 총 가중치 계산 및 초기화
