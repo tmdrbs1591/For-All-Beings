@@ -41,10 +41,14 @@ public class GachaManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && isGacha)
         {
             HandleClick();
+            SingleAudioManager.instance.PlaySound(transform.position, 7, UnityEngine.Random.Range(1f, 1.5f), 0.5f);
+            SingleAudioManager.instance.PlaySound(transform.position, 8, UnityEngine.Random.Range(1f, 1.5f), 1f);
+
         }
         if (Input.GetMouseButtonDown(0) && isResult)
         {
             InitGacha();
+            SongManager.instance.OutGameSongPlay();
         }
     }
 
@@ -215,6 +219,7 @@ public class GachaManager : MonoBehaviour
         if (clickCount == maxClickCount)
         {
             StartCoroutine(blurCircleSizeUpCoroutine()); // 등급 서클을 크게 만듦
+
             isGacha = false; // 더 이상 클릭할 수 없도록 설정
         }
     }
@@ -331,12 +336,15 @@ public class GachaManager : MonoBehaviour
         // 어두운 배경 투명도 애니메이션
         DOTween.ToAlpha(() => backgroundPanelImage.color, color => backgroundPanelImage.color = color, 0.6f, 0.3f);
 
+        SingleAudioManager.instance.PlaySound(transform.position, 9, UnityEngine.Random.Range(1f, 1.5f), 1f);
+
         // 서클 크기 애니메이션
         yield return rateCircleRect.DOScale(10f, 0.7f).SetEase(Ease.OutBack).WaitForCompletion();
 
         // Glow Intensity 값을 0으로 줄이기 위한 애니메이션 추가
         Material rateCircleMaterial = rateCircle.GetComponent<Image>().material; // Material 가져오기
         float currentGlowIntensity = rateCircleMaterial.GetFloat("_GlowIntensity");
+
 
         // Glow Intensity를 0으로 애니메이션 처리
         yield return DOTween.To(() => currentGlowIntensity, x => rateCircleMaterial.SetFloat("_GlowIntensity", x), 1f, 0.5f).WaitForCompletion();
