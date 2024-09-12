@@ -17,6 +17,7 @@ public class ShopUI : MonoBehaviour
     public ItemSO AppleToAdd;
     public ItemSO HealthPotionToAdd;
 
+    [SerializeField] GameObject dontmoneyPanel;
 
     [SerializeField] PlayerStats playerstat;
 
@@ -49,9 +50,17 @@ public class ShopUI : MonoBehaviour
 
             playerstat.attackPower += 10;
 
+            SingleAudioManager.instance.PlaySound(transform.position, 16, UnityEngine.Random.Range(1f, 1.5f), 1f);
+
             UseGolde(30);
 
             TutorialManager.instance.LastEventTutorial();
+        }
+       else if (playerGold.coin < 30)
+        {
+            dontmoneyPanel.SetActive(false);
+            dontmoneyPanel.SetActive(true);
+
         }
     }
 
@@ -62,9 +71,17 @@ public class ShopUI : MonoBehaviour
 
             playerstat.attackCoolTime += 0.05f;
 
+            SingleAudioManager.instance.PlaySound(transform.position, 16, UnityEngine.Random.Range(1f, 1.5f), 1f);
+
             UseGolde(30);
 
             TutorialManager.instance.LastEventTutorial();
+        }
+        else if (playerGold.coin < 30)
+        {
+            dontmoneyPanel.SetActive(false);
+            dontmoneyPanel.SetActive(true);
+
         }
     }
 
@@ -74,10 +91,17 @@ public class ShopUI : MonoBehaviour
         {
 
             playerstat.speed += 1f;
+            SingleAudioManager.instance.PlaySound(transform.position, 16, UnityEngine.Random.Range(1f, 1.5f), 1f);
 
             UseGolde(30);
 
             TutorialManager.instance.LastEventTutorial();
+        }
+        else if (playerGold.coin < 30)
+        {
+            dontmoneyPanel.SetActive(false);
+            dontmoneyPanel.SetActive(true);
+
         }
     }
     private void GrenadItemAdd()
@@ -99,6 +123,12 @@ public class ShopUI : MonoBehaviour
             UseGolde(30);
 
             TutorialManager.instance.LastEventTutorial();
+        }
+        else if (playerGold.coin < 30)
+        {
+            dontmoneyPanel.SetActive(false);
+            dontmoneyPanel.SetActive(true);
+
         }
     }
 
@@ -122,6 +152,12 @@ public class ShopUI : MonoBehaviour
             TutorialManager.instance.LastEventTutorial();
 
         }
+        else if (playerGold.coin < 5)
+        {
+            dontmoneyPanel.SetActive(false);
+            dontmoneyPanel.SetActive(true);
+
+        }
 
     }
     private void HealthpotionItemAdd()
@@ -143,6 +179,12 @@ public class ShopUI : MonoBehaviour
 
             TutorialManager.instance.LastEventTutorial();
 
+
+        }
+        else if (playerGold.coin < 10)
+        {
+            dontmoneyPanel.SetActive(false);
+            dontmoneyPanel.SetActive(true);
 
         }
     }
