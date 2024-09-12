@@ -101,13 +101,38 @@ public class GachaManager : MonoBehaviour
 
     IEnumerator ResultCharaterImageSpawn()
     {
-        foreach(GachaCharacterInfo c in getCharaterInfos)
+        if (getCharaterInfos.Count == 1)
         {
-            yield return new WaitForSeconds(0.3f);
-            resultCharImages.Add(Instantiate(c.charImage, gridParent));
+            // 1회 뽑기일 때 그리드 레이아웃 비활성화
+            gridParent.GetComponent<GridLayoutGroup>().enabled = false;
+
+            // 캐릭터 이미지를 중앙에 배치 (수동 배치)
+            GameObject charImage = Instantiate(getCharaterInfos[0].charImage, gridParent);
+            RectTransform charRect = charImage.GetComponent<RectTransform>();
+
+            // 중앙 배치를 위해 앵커와 위치 조정
+            charRect.anchorMin = new Vector2(0.5f, 0.5f);
+            charRect.anchorMax = new Vector2(0.5f, 0.5f);
+            charRect.pivot = new Vector2(0.5f, 0.5f);
+            charRect.anchoredPosition = Vector2.zero; // 중앙에 배치
+            resultCharImages.Add(charImage);
         }
+        else if (getCharaterInfos.Count > 1)
+        {
+            // 10회 뽑기일 때 그리드 레이아웃 활성화
+            gridParent.GetComponent<GridLayoutGroup>().enabled = true;
+
+            // 캐릭터 이미지를 차례대로 그리드에 스폰
+            foreach (GachaCharacterInfo c in getCharaterInfos)
+            {
+                yield return new WaitForSeconds(0.1f);
+                resultCharImages.Add(Instantiate(c.charImage, gridParent));
+            }
+        }
+
         isResult = true;
     }
+
 
     // 총 가중치 계산 및 초기화
     private void Start()
@@ -376,6 +401,9 @@ public class GachaManager : MonoBehaviour
 
         // 13. 뽑은 최고 등급 초기화
         bestGrade = CharGrade.Common;
+
+        // 14. 방향 초기화
+        acorn.transform.localEulerAngles = new Vector3(-63.866f, 0f, 0f); // 기본 로테이션 값
     }
 
 }

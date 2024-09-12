@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!91 &9100000
+AnimatorController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: "\uC6A9\uAE30\uC0AC \uCE90\uB9AD\uD130 \uC774\uBBF8\uC9C0"
+  serializedVersion: 5
+  m_AnimatorParameters: []
+  m_AnimatorLayers: []
