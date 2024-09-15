@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.29936957, g: 0.29936957, b: 0.29936957, a: 1}
+  m_IndirectSpecularColor: {r: 0.19964376, g: 0.29936957, b: 0.22072455, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5688,7 +5688,7 @@ Transform:
   m_GameObject: {fileID: 1363355340}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -55.08681, y: -29.43, z: 92.43989}
+  m_LocalPosition: {x: -55.08681, y: -30.25, z: 92.43989}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7885,7 +7885,11 @@ MonoBehaviour:
     charGrade: 2
     weight: 50
   total: 0
-  getCharaterInfos: []
+  getCharaterInfos:
+  - charName: 
+    charImage: {fileID: 0}
+    charGrade: 0
+    weight: 0
   gachaPanel: {fileID: 2003357601}
   acorn: {fileID: 926035390}
   acornStartPos: {fileID: 975234843}
