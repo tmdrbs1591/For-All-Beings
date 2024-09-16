@@ -71,8 +71,12 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
 
         reSpawnBar.value = keyPressTime / requiredHoldTime;
 
-        if (currentUltimategauge >= maxUltimategauge) ultimateReadyUI.SetActive(true);
-        else ultimateReadyUI.SetActive(false);
+        if (ultimateReadyUI != null)
+        {
+            if (currentUltimategauge >= maxUltimategauge) ultimateReadyUI.SetActive(true);
+            else ultimateReadyUI.SetActive(false);
+        }
+      
     }
 
     [PunRPC]
