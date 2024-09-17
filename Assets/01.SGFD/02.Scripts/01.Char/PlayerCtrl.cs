@@ -1,11 +1,9 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
-using Cinemachine;
-using TMPro;
-using Photon.Realtime;
-using Unity.Services.Analytics;
 
 public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -32,7 +30,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] Slider hpBar;
 
 
-     public  bool isNeverDie;
+    public bool isNeverDie;
 
 
 
@@ -310,7 +308,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
                     enemyPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, damage);
 
                     if (!isNeverDie)
-                    playerStats.currentUltimategauge++;
+                        playerStats.currentUltimategauge++;
 
 
                     enemyScript.playerObj = this.gameObject;
@@ -481,7 +479,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator SkillCor()
     {
-     
+
         yield return new WaitForSeconds(0.1f);
         //CameraShake.instance.ZoomIn(10f, 1f); // 줌 인
 
@@ -607,13 +605,13 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void Ultimate()
     {
-    
+
         StartCoroutine(UltimateCor());
     }
 
     IEnumerator UltimateCor()
     {
-     
+
 
         yield return new WaitForSeconds(0.3f);
         ultimatePtc.SetActive(true);
@@ -621,7 +619,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
         attackBoxSize = new Vector3(5, 5, 6); // 어택박스 크기 키우기
 
-      
+
         playerStats.originalMesh.SetActive(false); // 모습 없애기 
         for (int i = 0; i < 30; i++)
         {
@@ -633,14 +631,14 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
                 CameraShake.instance.Shake();
         }
 
-       
+
         attackBoxSize = originalAttackBoxSize;
 
         yield return new WaitForSeconds(0.37f);
         AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1.2f, 1.2f), 0.2f);
 
         if (photonView.IsMine)
-        CameraShake.instance.Shake();
+            CameraShake.instance.Shake();
 
         PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 10f);
 
@@ -649,7 +647,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
         ultimatePtc.SetActive(false);
 
-      
+
 
     }
     IEnumerator UltimateCamera()
