@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.19964376, g: 0.29936957, b: 0.22072455, a: 1}
+  m_IndirectSpecularColor: {r: 0.29936957, g: 0.29936957, b: 0.29936957, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7885,11 +7885,7 @@ MonoBehaviour:
     charGrade: 2
     weight: 50
   total: 0
-  getCharaterInfos:
-  - charName: 
-    charImage: {fileID: 0}
-    charGrade: 0
-    weight: 0
+  getCharaterInfos: []
   gachaPanel: {fileID: 2003357601}
   acorn: {fileID: 926035390}
   acornStartPos: {fileID: 975234843}
