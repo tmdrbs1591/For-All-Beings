@@ -395,15 +395,11 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
         {
             Debug.Log("next room");
             PV.RPC("MoveToNextStage", RpcTarget.All);
-            PV.RPC("KeyUIFalse", RpcTarget.All);
+            playerStats.KeyUI.SetActive(false);
         }
     }
 
-    [PunRPC]
-    void KeyUIFalse()
-    {
-        playerStats.KeyUI.SetActive(false);
-    }
+  
     [PunRPC]
     void MoveToNextStage()
     {
