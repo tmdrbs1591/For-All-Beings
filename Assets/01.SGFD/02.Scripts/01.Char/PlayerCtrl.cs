@@ -89,6 +89,8 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
     protected void Awake()
     {
+        PhotonNetwork.SendRate = 20;
+        PhotonNetwork.SerializationRate = 15;
         wakkAudioSource = GetComponent<AudioSource>();
         playerStats = GetComponent<PlayerStats>();
         rigid = GetComponent<Rigidbody>();
