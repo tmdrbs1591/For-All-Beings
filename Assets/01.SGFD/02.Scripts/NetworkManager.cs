@@ -63,13 +63,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-
-        if (!PhotonNetwork.IsConnected)
+        if (type == "Tutorial")
         {
-            if (type == "Tutorial")
-            {
-                PhotonNetwork.ConnectUsingSettings();
-            }
+            PhotonNetwork.ConnectUsingSettings();
         }
     }
 
