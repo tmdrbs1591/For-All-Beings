@@ -97,7 +97,7 @@ public class TimeManager : MonoBehaviour
                 i = StageManager.instance.currentStage;
             }
             stageText.text = "최종 스테이지 : " + i.ToString();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.03f);
         }
 
         yield return new WaitForSeconds(1f);

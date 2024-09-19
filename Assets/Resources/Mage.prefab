@@ -3986,7 +3986,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2181799201885167452}
-  m_Father: {fileID: 8742610295465704540}
+  m_Father: {fileID: 1504185239543852754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9478,6 +9478,7 @@ RectTransform:
   - {fileID: 1176401375836383091}
   - {fileID: 7960145806611559696}
   - {fileID: 7797239015380445106}
+  - {fileID: 3856616342761216377}
   m_Father: {fileID: 5300238079132762143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -15018,7 +15019,6 @@ RectTransform:
   - {fileID: 1108555494258229127}
   - {fileID: 8725705974479279644}
   - {fileID: 5169685855730994961}
-  - {fileID: 3856616342761216377}
   - {fileID: 4140124301857587137}
   m_Father: {fileID: 5300238079132762143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19347,8 +19347,8 @@ MonoBehaviour:
   speed: 6
   attackCoolTime: 0.3
   attackPower: 15
-  maxHp: 2
-  curHp: 2
+  maxHp: 40
+  curHp: 40
   skillCoolTime: 33
   uiLevelUp: {fileID: 8416734504759287232}
   playerLevel: 1
@@ -22711,7 +22711,7 @@ PrefabInstance:
     - target: {fileID: 3602318262160386771, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_Size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3602318262160386771, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
