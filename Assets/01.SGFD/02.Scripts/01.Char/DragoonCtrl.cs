@@ -327,23 +327,26 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
         // 동기화할 데이터가 있을 경우 여기에 작성합니다.
         if (stream.IsWriting)
         {
-            // 데이터를 다른 클라이언트에게 보냅니다.
-            stream.SendNext(playerStats.attackPower);
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            stream.SendNext(playerStats.curHp);
+            if (Vector3.Distance(transform.position, networkPosition) > 0.1f || Quaternion.Angle(transform.rotation, networkRotation) > 1f)
+            {
+                // 데이터를 다른 클라이언트에게 보냅니다.
+                stream.SendNext(playerStats.attackPower);
+                stream.SendNext(transform.position);
+                stream.SendNext(transform.rotation);
+                stream.SendNext(playerStats.curHp);
+            }
 
         }
         else
         {
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotation = (Quaternion)stream.ReceiveNext();
+
             // 데이터를 다른 클라이언트로부터 수신합니다.
             playerStats.attackPower = (float)stream.ReceiveNext();
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
             playerStats.curHp = (float)stream.ReceiveNext();
         }
     }
-
     [PunRPC]
     void SpawnDamageText(Vector3 position, float damage)
     {
