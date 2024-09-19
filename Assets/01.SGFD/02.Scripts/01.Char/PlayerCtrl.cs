@@ -159,7 +159,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             StartUltimate();
         }
 
-     //   PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+       
 
     }
 
@@ -391,6 +391,8 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (PV.IsMine)
                 PV.RPC("PlayerTakeDamage", RpcTarget.AllBuffered, 1f); // 체력 감소 RPC 호출
+
+            PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
         }
     }
     private void OnTriggerStay(Collider other)
@@ -418,6 +420,8 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             return;
         playerStats.curHp -= damage;
         StartCoroutine(playerStats.HitPanelCor());
+        playerStats.photonView.RPC("Die", RpcTarget.AllBuffered);
+      
     }
     [PunRPC]
     void SynchronizationHp()

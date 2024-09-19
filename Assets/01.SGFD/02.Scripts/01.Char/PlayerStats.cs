@@ -67,7 +67,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
         levelText.text = "LV." + playerLevel.ToString();
         xpText.text = currentXp + "/" + xp;
 
-       // photonView.RPC("Die", RpcTarget.AllBuffered);
+     
 
         reSpawnBar.value = keyPressTime / requiredHoldTime;
 
@@ -175,6 +175,8 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void TakeDamage(int damage)
     {
+        photonView.RPC("Die", RpcTarget.AllBuffered);
+
         if (!isDie)
         {
             curHp -= damage;
