@@ -159,7 +159,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             StartUltimate();
         }
 
-        PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+     //   PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
 
     }
 

@@ -207,8 +207,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        PhotonNetwork.SendRate = 60;  // 초당 20회 메시지 전송
-        PhotonNetwork.SerializationRate = 60;  // 초당 20회 직렬화
 
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
         instance = this;
