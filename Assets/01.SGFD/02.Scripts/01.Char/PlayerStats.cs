@@ -16,6 +16,8 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
 
     public float skillCoolTime = 5f; // 스킬 쿨타임 설정
 
+    public bool isDieNow = false;
+
     public LevelUp uiLevelUp;
 
     [Header("레벨")]
@@ -84,6 +86,7 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     {
         if (curHp <= 0)
         {
+            isDieNow = true;
             isDie = true;
             originalMesh.SetActive(false);
             stoneGraveMesh.SetActive(true);

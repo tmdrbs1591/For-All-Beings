@@ -148,7 +148,7 @@ public class MageCtrl : MonoBehaviourPunCallbacks, IPunObservable
             transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 25);
         }
 
-        PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+       
 
     }
 
@@ -364,6 +364,7 @@ public class MageCtrl : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (PV.IsMine)
                 PV.RPC("PlayerTakeDamage", RpcTarget.AllBuffered, 1f); // 체력 감소 RPC 호출
+            PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
         }
     }
 
@@ -393,6 +394,7 @@ public class MageCtrl : MonoBehaviourPunCallbacks, IPunObservable
         playerStats.curHp -= damage;
         hpBar.value = playerStats.curHp / playerStats.maxHp; // HP 바 업데이트
         StartCoroutine(playerStats.HitPanelCor());
+        playerStats.photonView.RPC("Die", RpcTarget.AllBuffered);
 
     }
 

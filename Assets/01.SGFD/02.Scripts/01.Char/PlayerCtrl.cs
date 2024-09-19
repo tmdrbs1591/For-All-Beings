@@ -159,10 +159,17 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             StartUltimate();
         }
 
-       
+    
 
     }
-
+    private void LateUpdate()
+    {
+        if (playerStats.isDieNow)
+        {
+            PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+            playerStats.isDieNow = false;
+        }
+    }
     void GetInput()
     {
         hAxis = Input.GetAxisRaw("Horizontal");

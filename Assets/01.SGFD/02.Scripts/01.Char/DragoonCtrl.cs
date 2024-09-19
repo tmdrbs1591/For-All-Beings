@@ -144,7 +144,7 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 25);
             transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 25);
         }
-        PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+   
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartUltimate();
@@ -365,6 +365,7 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (PV.IsMine)
                 PV.RPC("PlayerTakeDamage", RpcTarget.AllBuffered, 1f); // 체력 감소 RPC 호출
+            PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
         }
     }
     private void OnTriggerStay(Collider other)
@@ -398,6 +399,8 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
         playerStats.curHp -= damage;
         hpBar.value = playerStats.curHp / playerStats.maxHp; // HP 바 업데이트
         StartCoroutine(playerStats.HitPanelCor());
+        playerStats.photonView.RPC("Die", RpcTarget.AllBuffered);
+
 
     }
 
