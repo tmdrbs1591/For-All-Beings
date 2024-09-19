@@ -82,12 +82,7 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
     }
-    [PunRPC]
-    void KeyUIFalse()
-    {
-                        KeyUI.SetActive(false);
-    }
-   
+  
 
     [PunRPC]
     private void SyncAcornPickup(int viewID)
@@ -190,29 +185,57 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
+            // 상태가 바뀌었을 때만 데이터 전송
             stream.SendNext(isHold);
             stream.SendNext(nextChildIndex);
+
+            // heldObject가 null이 아닌 경우에만 ViewID 전송
             if (heldObject != null)
             {
-                stream.SendNext(heldObject.GetComponent<PhotonView>().ViewID);
+                int viewID = heldObject.GetComponent<PhotonView>().ViewID;
+                if (viewID != -1)
+                {
+                    stream.SendNext(viewID);
+                }
             }
             else
             {
-                stream.SendNext(-1);
+                stream.SendNext(-1); // heldObject가 없으면 -1 전송
             }
         }
         else
         {
-            isHold = (bool)stream.ReceiveNext();
-            nextChildIndex = (int)stream.ReceiveNext();
+            // 데이터 수신
+            bool newIsHold = (bool)stream.ReceiveNext();
+            int newNextChildIndex = (int)stream.ReceiveNext();
             int heldObjectViewID = (int)stream.ReceiveNext();
+
+            // 값이 변경된 경우에만 업데이트
+            if (isHold != newIsHold)
+            {
+                isHold = newIsHold;
+            }
+
+            if (nextChildIndex != newNextChildIndex)
+            {
+                nextChildIndex = newNextChildIndex;
+            }
+
             if (heldObjectViewID != -1)
             {
-                heldObject = PhotonView.Find(heldObjectViewID)?.gameObject;
-                Rigidbody rb = heldObject?.GetComponent<Rigidbody>();
-                if (rb != null)
+                if (heldObject == null || heldObject.GetComponent<PhotonView>().ViewID != heldObjectViewID)
                 {
-                    rb.isKinematic = true;
+                    heldObject = PhotonView.Find(heldObjectViewID)?.gameObject;
+
+                    // Rigidbody 컴포넌트가 있는 경우에만 처리
+                    if (heldObject != null)
+                    {
+                        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+                        if (rb != null && !rb.isKinematic)
+                        {
+                            rb.isKinematic = true;
+                        }
+                    }
                 }
             }
             else
@@ -221,4 +244,5 @@ public class PlayerEvent : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
     }
+
 }
