@@ -356,16 +356,12 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             {
                 // 데이터를 다른 클라이언트에게 보냅니다.
                 stream.SendNext(playerStats.attackPower);
-                stream.SendNext(transform.position);
-                stream.SendNext(transform.rotation);
                 stream.SendNext(playerStats.curHp);
             }
 
         }
         else
         {
-            networkPosition = (Vector3)stream.ReceiveNext();
-            networkRotation = (Quaternion)stream.ReceiveNext();
 
         // 데이터를 다른 클라이언트로부터 수신합니다.
            playerStats.attackPower = (float)stream.ReceiveNext();

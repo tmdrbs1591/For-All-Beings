@@ -511,21 +511,22 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+{
+    if (stream.IsWriting)
     {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(currentStage);
-            stream.SendNext(killCount);
-            stream.SendNext(totalMonsters);
-        }
-        else
-        {
-            currentStage = (int)stream.ReceiveNext();
-            killCount = (int)stream.ReceiveNext();
-            totalMonsters = (int)stream.ReceiveNext();
-        }
+        stream.SendNext(currentStage);
+        stream.SendNext(killCount);
+        stream.SendNext(totalMonsters);
     }
+    else
+    {
+        currentStage = (int)stream.ReceiveNext();
+        killCount = (int)stream.ReceiveNext();
+        totalMonsters = (int)stream.ReceiveNext();
+    }
+}
+
 
     [PunRPC]
     private void UpdateKillCount(int newKillCount)
