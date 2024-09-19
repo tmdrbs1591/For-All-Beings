@@ -63,6 +63,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.Disconnect();
+
         if (type == "Tutorial")
         {
             PhotonNetwork.ConnectUsingSettings();
