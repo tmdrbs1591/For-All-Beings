@@ -154,53 +154,21 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     }
 
     // IPunObservable 인터페이스 구현
-    private int previousPlayerLevel;
-    private float previousCurrentXp;
-    private float previousXp;
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            // 변화가 있을 때만 데이터 전송
-            if (playerLevel != previousPlayerLevel)
-            {
-                stream.SendNext(playerLevel);
-                previousPlayerLevel = playerLevel;
-            }
-
-            if (currentXp != previousCurrentXp)
-            {
-                stream.SendNext(currentXp);
-                previousCurrentXp = currentXp;
-            }
-
-            if (xp != previousXp)
-            {
-                stream.SendNext(xp);
-                previousXp = xp;
-            }
+            // 데이터 전송
+            stream.SendNext(playerLevel);
+            stream.SendNext(currentXp);
+            stream.SendNext(xp);
         }
         else
         {
             // 데이터 수신
-            if (stream.Count > 0)
-            {
-                playerLevel = (int)stream.ReceiveNext();
-                previousPlayerLevel = playerLevel;
-            }
-
-            if (stream.Count > 1)
-            {
-                currentXp = (float)stream.ReceiveNext();
-                previousCurrentXp = currentXp;
-            }
-
-            if (stream.Count > 2)
-            {
-                xp = (float)stream.ReceiveNext();
-                previousXp = xp;
-            }
+            playerLevel = (int)stream.ReceiveNext();
+            currentXp = (float)stream.ReceiveNext();
+            xp = (float)stream.ReceiveNext();
         }
     }
 
