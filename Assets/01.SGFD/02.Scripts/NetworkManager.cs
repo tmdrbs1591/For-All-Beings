@@ -210,9 +210,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
         instance = this;
 
-        PhotonNetwork.SendRate = 20;
-        PhotonNetwork.SerializationRate = 15;
-
+        PhotonNetwork.SendRate = 10; // 초당 10번 패킷 전송
+        PhotonNetwork.SerializationRate = 5;  // 초당 5번 데이터 직렬화
 
     }
 
