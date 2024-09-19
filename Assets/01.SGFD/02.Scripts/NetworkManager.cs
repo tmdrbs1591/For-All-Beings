@@ -210,8 +210,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
         instance = this;
 
-        PhotonNetwork.SendRate = 30; // 초당 60번 패킷 전송 (기본 최대치)
-        PhotonNetwork.SerializationRate = 20;  // 초당 60번 데이터 직렬화
 
     }
 
