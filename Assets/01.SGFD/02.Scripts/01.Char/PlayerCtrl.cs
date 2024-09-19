@@ -159,17 +159,10 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             StartUltimate();
         }
 
-    
+       
 
     }
-    private void LateUpdate()
-    {
-        if (playerStats.isDieNow)
-        {
-            PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
-            playerStats.isDieNow = false;
-        }
-    }
+
     void GetInput()
     {
         hAxis = Input.GetAxisRaw("Horizontal");
@@ -427,7 +420,7 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             return;
         playerStats.curHp -= damage;
         StartCoroutine(playerStats.HitPanelCor());
-        playerStats.photonView.RPC("Die", RpcTarget.AllBuffered);
+        photonView.RPC("Die", RpcTarget.AllBuffered);
       
     }
     [PunRPC]
