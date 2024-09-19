@@ -209,6 +209,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
         instance = this;
+
+        PhotonNetwork.SendRate = 20;
+        PhotonNetwork.SerializationRate = 15;
+
+
     }
 
     void Update()
