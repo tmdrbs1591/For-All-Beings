@@ -19367,6 +19367,7 @@ MonoBehaviour:
   ultimateBar: {fileID: 0}
   maxUltimategauge: 0
   currentUltimategauge: 0
+  isFreeze: 0
   isDie: 0
 --- !u!114 &1695807690777784279
 MonoBehaviour:

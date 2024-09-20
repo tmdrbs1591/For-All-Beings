@@ -11,6 +11,7 @@ public class SongManager : MonoBehaviour
     [SerializeField] AudioClip outGameSong;
     [SerializeField] AudioClip inGameSong;
     [SerializeField] AudioClip BossSong;
+    [SerializeField] AudioClip clearSong;
 
     private void Awake()
     {
@@ -47,6 +48,16 @@ public class SongManager : MonoBehaviour
         }
 
         song.clip = BossSong; // 새로운 클립 설정
+        song.Play(); // 클립 재생
+    }
+    public void ClearSongPlay()
+    {
+        if (song.isPlaying)
+        {
+            song.Stop(); // 현재 재생 중인 곡을 정지합니다.
+        }
+
+        song.clip = clearSong; // 새로운 클립 설정
         song.Play(); // 클립 재생
     }
 
