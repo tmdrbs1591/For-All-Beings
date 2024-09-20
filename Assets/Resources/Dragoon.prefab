@@ -981,6 +981,7 @@ MonoBehaviour:
   ultimateBar: {fileID: 7744243677286175206}
   maxUltimategauge: 10
   currentUltimategauge: 10
+  isFreeze: 0
   isDie: 0
 --- !u!114 &5572694070025402713
 MonoBehaviour:
@@ -23732,32 +23733,32 @@ PrefabInstance:
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 160
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067808617274602016, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8847105871441146312, guid: c9908c2770b693045893f9cf85dd321a,
         type: 3}

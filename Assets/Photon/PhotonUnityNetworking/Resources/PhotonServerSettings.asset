@@ -110,6 +110,9 @@ MonoBehaviour:
   - ActivateSkillAnim
   - AttackDamage
   - PlayerDashAnim
+  - SetPlayerPosition
+  - SetPosition
+  - SyncPlayerPositions
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

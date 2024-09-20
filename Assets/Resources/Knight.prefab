@@ -16630,6 +16630,7 @@ MonoBehaviour:
   ultimateBar: {fileID: 3086883117168183930}
   maxUltimategauge: 10
   currentUltimategauge: 10
+  isFreeze: 0
   isDie: 0
 --- !u!114 &3941120395239933755
 MonoBehaviour:

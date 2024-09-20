@@ -564,7 +564,7 @@ public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         playerCamera.SetActive(true);
         cutSceneCamera.SetActive(false);
 
-        // 모든 Canvas 객체를 다시 활성화합니다
+        // 모든 Canvas 객체를 다시 활성화합니다  
         foreach (GameObject canvas in canvases)
         {
             canvas.SetActive(true);

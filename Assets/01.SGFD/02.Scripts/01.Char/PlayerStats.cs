@@ -47,6 +47,8 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
     private PhotonView photonView;
     private Rigidbody rb; // Rigidbody 변수 추가
 
+    public bool isFreeze = false;
+
     [SerializeField] public bool isDie;
 
     // Start is called before the first frame update
