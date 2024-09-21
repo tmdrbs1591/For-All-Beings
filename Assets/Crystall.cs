@@ -30,5 +30,7 @@ public class Crystall : MonoBehaviourPunCallbacks
     {
         currentHP -= 1;
         PhotonNetwork.Instantiate("Gold", transform.position + new Vector3(0, 0.3f, 0), Quaternion.identity);
+        AudioManager.instance.PlaySound(transform.position, 19, Random.Range(0.9f, 1.3f), 0.4f);
+
     }
 }

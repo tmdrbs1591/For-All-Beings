@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3653543815220650179}
   m_Layer: 0
   m_Name: ScorpionKingBullet
-  m_TagString: Untagged
+  m_TagString: AttackBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

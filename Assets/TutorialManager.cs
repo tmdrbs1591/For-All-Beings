@@ -72,7 +72,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             isAttackTutorialClear = false;
         }
 
-        if (isSkillTutorialClear && Input.GetKeyDown(KeyCode.Space))
+        if (isSkillTutorialClear && Input.GetKeyDown(KeyCode.R))
         {
             StartCoroutine(SkillUltimateCor());
             isSkillTutorialClear = false;
@@ -178,12 +178,12 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         playerController.enabled = false;
         Text("좋았어!");
         yield return new WaitForSeconds(2f);
-        Text("[Space]를 눌러 궁극기를 사용할 수있어!");
+        Text("[R]를 눌러 궁극기를 사용할 수있어!");
         yield return new WaitForSeconds(2f);
         messagePanel.SetActive(false);
         playerController.enabled = true;
 
-        questText.text = "[Space]를 눌러 궁극기 사용하기";
+        questText.text = "[R]를 눌러 궁극기 사용하기";
 
 
         questtoggle.isOn = false;

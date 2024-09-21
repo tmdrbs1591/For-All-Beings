@@ -18,9 +18,11 @@ public class BossBullet : MonoBehaviour
         // 총알을 발사 방향으로 이동
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject); // 충돌 시 총알을 파괴
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Destroy(gameObject); // 충돌 시 총알을 파괴
+        }
     }
 }

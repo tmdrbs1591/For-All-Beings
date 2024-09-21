@@ -124,10 +124,7 @@ public class MageCtrl : MonoBehaviourPunCallbacks, IPunObservable
         UpdateSkillUI(); // 스킬 UI 업데이트 메서드 호출
         UpdateDashUI(); // 
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ChangeAttackPower(playerStats.attackPower + 1f); // attackPower 증가 함수 호출
-        }
+   
         if (Input.GetKeyDown(KeyCode.E))
         {
             GameObject closestEnemy = FindClosestEnemy();
@@ -418,6 +415,9 @@ public class MageCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
                 Vector3 dashPower = this.transform.forward * 20;
                 rigid.AddForce(dashPower, ForceMode.VelocityChange);
+
+                AudioManager.instance.PlaySound(transform.position, 20, Random.Range(0.9f, 1.1f), 0.4f);
+
             }
         }
         else

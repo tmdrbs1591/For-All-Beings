@@ -134,10 +134,7 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
         UpdateSkillUI(); // 스킬 UI 업데이트 메서드 호출
         UpdateDashUI(); // 
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ChangeAttackPower(playerStats.attackPower + 1f); // attackPower 증가 함수 호출
-        }
+     
         if (!PV.IsMine)
         {
             // 다른 클라이언트에서 보간하여 위치와 회전을 조정
@@ -145,7 +142,7 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
             transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 25);
         }
    
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             StartUltimate();
         }
@@ -424,6 +421,9 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
 
                 Vector3 dashPower = this.transform.forward * 20;
                 rigid.AddForce(dashPower, ForceMode.VelocityChange);
+
+                AudioManager.instance.PlaySound(transform.position, 20, Random.Range(0.9f, 1.1f), 0.4f);
+
             }
         }
         else

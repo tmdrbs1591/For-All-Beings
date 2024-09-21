@@ -1,3 +1,4 @@
+using ExitGames.Demos.DemoPunVoice;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,5 +71,10 @@ public class ButtonManager : MonoBehaviour
         CharManager.instance.currentCharacter = Character.Mage;
         Debug.Log("마법사 선택");
 
+    }
+
+    public void GameExit()
+    {
+        Application.Quit();
     }
 }
