@@ -101,6 +101,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private GameObject playerCamera;
     [SerializeField] private GameObject cutSceneCamera;
 
+    [SerializeField] private GameObject eventMessagePanel;
 
     private void Awake()
     {
@@ -189,6 +190,7 @@ public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
                     totalMonsters++;
                 }
                 isEvent = false;
+                eventMessagePanel.SetActive(false);
             }
             else
             {
