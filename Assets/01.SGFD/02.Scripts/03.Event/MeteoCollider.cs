@@ -22,7 +22,7 @@ public class MeteoCollider : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             var playerstats = other.GetComponent<PlayerStats>();
-            playerstats.photonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10);
+            playerstats.photonView.RPC("TakeDamage", RpcTarget.AllBuffered, 3);
 
             Debug.Log("으악!!!!!!!!!!!!!!!!!! 메테오다 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }

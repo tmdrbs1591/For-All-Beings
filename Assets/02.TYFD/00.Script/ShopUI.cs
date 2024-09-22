@@ -53,8 +53,8 @@ public class ShopUI : MonoBehaviour
             SingleAudioManager.instance.PlaySound(transform.position, 16, UnityEngine.Random.Range(1f, 1.5f), 1f);
 
             UseGolde(30);
-
-            TutorialManager.instance.LastEventTutorial();
+            if (TutorialManager.instance != null)
+                TutorialManager.instance.LastEventTutorial();
         }
        else if (playerGold.coin < 30)
         {
@@ -74,8 +74,8 @@ public class ShopUI : MonoBehaviour
             SingleAudioManager.instance.PlaySound(transform.position, 16, UnityEngine.Random.Range(1f, 1.5f), 1f);
 
             UseGolde(30);
-
-            TutorialManager.instance.LastEventTutorial();
+            if (TutorialManager.instance != null)
+                TutorialManager.instance.LastEventTutorial();
         }
         else if (playerGold.coin < 30)
         {
@@ -94,8 +94,8 @@ public class ShopUI : MonoBehaviour
             SingleAudioManager.instance.PlaySound(transform.position, 16, UnityEngine.Random.Range(1f, 1.5f), 1f);
 
             UseGolde(30);
-
-            TutorialManager.instance.LastEventTutorial();
+            if (TutorialManager.instance != null)
+                TutorialManager.instance.LastEventTutorial();
         }
         else if (playerGold.coin < 30)
         {
@@ -121,8 +121,8 @@ public class ShopUI : MonoBehaviour
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);
 
             UseGolde(30);
-
-            TutorialManager.instance.LastEventTutorial();
+            if (TutorialManager.instance != null)
+                TutorialManager.instance.LastEventTutorial();
         }
         else if (playerGold.coin < 30)
         {
@@ -148,8 +148,8 @@ public class ShopUI : MonoBehaviour
             // 인벤토리에 아이템 추가
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);
             UseGolde(5);
-
-            TutorialManager.instance.LastEventTutorial();
+            if (TutorialManager.instance != null)
+                TutorialManager.instance.LastEventTutorial();
 
         }
         else if (playerGold.coin < 5)
@@ -176,8 +176,8 @@ public class ShopUI : MonoBehaviour
             // 인벤토리에 아이템 추가
             int reminder = inventoryData.AddItem(newItem.item, newItem.quantity);
             UseGolde(10);
-
-            TutorialManager.instance.LastEventTutorial();
+            if (TutorialManager.instance != null)
+                TutorialManager.instance.LastEventTutorial();
 
 
         }

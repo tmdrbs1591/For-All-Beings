@@ -76,7 +76,7 @@ public class MeteoEvent : MonoBehaviourPun
 
         // 메테오 생성
         Instantiate(meteoPrefab, spawnPosition.position, Quaternion.identity);
-        AudioManager.instance.PlaySound(transform.position, 18, UnityEngine.Random.Range(1f, 1.7f), 1f);
+        AudioManager.instance.PlaySound(transform.position, 18, UnityEngine.Random.Range(1f, 1.7f), 0.3f);
 
         // 스폰된 메테오 개수 증가
         spawnedMeteos++;

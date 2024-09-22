@@ -81,6 +81,11 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             if (currentUltimategauge >= maxUltimategauge) ultimateReadyUI.SetActive(true);
             else ultimateReadyUI.SetActive(false);
         }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            KeyUI.SetActive(false);
+        }
       
     }
 

@@ -498,12 +498,15 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 1f);
             AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1.1f, 1.4f), 0.2f);
             yield return new WaitForSeconds(0.1f);
-            CameraShake.instance.Shake();
-            CameraShake.instance.Shake();
+            if (photonView.IsMine)
+                CameraShake.instance.Shake();
+            if (photonView.IsMine)
+                CameraShake.instance.Shake();
         }
         yield return new WaitForSeconds(0.37f);
         AudioManager.instance.PlaySound(transform.position, 2, Random.Range(1.2f, 1.2f), 0.2f);
-        CameraShake.instance.Shake();
+        if (photonView.IsMine)
+            CameraShake.instance.Shake();
         PV.RPC("Damage", RpcTarget.All, playerStats.attackPower + 10f);
 
         //CameraShake.instance.ZoomOut(57.4f, 0.2f); // ÁÜ ¾Æ¿ô
