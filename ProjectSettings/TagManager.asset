@@ -23,6 +23,7 @@ TagManager:
   - Crystal
   - CollaborationButton
   - ShopEventBox
+  - Meteor
   layers:
   - Default
   - TransparentFX

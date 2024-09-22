@@ -16628,8 +16628,8 @@ MonoBehaviour:
   ultimateReadyUI: {fileID: 2813216247520291773}
   reSpawnBar: {fileID: 1319689264125755983}
   ultimateBar: {fileID: 3086883117168183930}
-  maxUltimategauge: 10
-  currentUltimategauge: 10
+  maxUltimategauge: 60
+  currentUltimategauge: 0
   isFreeze: 0
   isReSpawn: 0
   isDie: 0

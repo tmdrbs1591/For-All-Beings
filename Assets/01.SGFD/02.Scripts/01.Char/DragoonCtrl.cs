@@ -372,6 +372,11 @@ public class DragoonCtrl : MonoBehaviourPunCallbacks, IPunObservable
                 PV.RPC("PlayerTakeDamage", RpcTarget.AllBuffered, 1f); // 체력 감소 RPC 호출
             PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
         }
+        if (other.gameObject.CompareTag("Meteor"))
+        {
+            PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+
+        }
     }
     private void OnTriggerStay(Collider other)
     {
