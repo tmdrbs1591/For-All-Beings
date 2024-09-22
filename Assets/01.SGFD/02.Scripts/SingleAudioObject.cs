@@ -5,7 +5,7 @@ using UnityEngine;
 public class SingleAudioObject : MonoBehaviour
 {
     // 오디오 소스 컴포넌트
-    private AudioSource aud;
+    public AudioSource aud;
 
     // 오디오 클립
     public AudioClip clip;

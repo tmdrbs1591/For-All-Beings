@@ -49,6 +49,8 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
 
     public bool isFreeze = false;
 
+    public bool isReSpawn = false;
+
     [SerializeField] public bool isDie;
 
     // Start is called before the first frame update
@@ -118,6 +120,8 @@ public class PlayerStats : MonoBehaviourPun, IPunObservable
             {
                 rb.isKinematic = false; // 물리 계산을 재개
             }
+
+            isReSpawn = true;
         }
     }
 

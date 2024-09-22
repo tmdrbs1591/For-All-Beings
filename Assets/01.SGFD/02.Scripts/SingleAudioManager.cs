@@ -98,5 +98,5 @@ public class SingleAudioManager : MonoBehaviour
         audObject.volume = volume;
 
     }
-
+    
 }

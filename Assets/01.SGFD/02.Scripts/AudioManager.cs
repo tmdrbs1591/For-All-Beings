@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 public class AudioManager : MonoBehaviourPun
 {
@@ -72,5 +73,10 @@ public class AudioManager : MonoBehaviourPun
         Transform follower = followerViewID != -1 ? PhotonView.Find(followerViewID).transform : null;
         AudioObject audObj = Instantiate(audioObjectPrefab, new Vector3(position.x, position.y, -5), Quaternion.identity).GetComponent<AudioObject>();
         audObj.Initialize(clips[index], pitch, volume, follower);
+    }
+
+    internal void PlaySound(Vector3 position, int v1, object value, float v2)
+    {
+        throw new NotImplementedException();
     }
 }

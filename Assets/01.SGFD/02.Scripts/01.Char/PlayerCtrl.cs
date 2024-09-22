@@ -156,9 +156,12 @@ public class PlayerCtrl : MonoBehaviourPunCallbacks, IPunObservable
             StartUltimate();
         }
 
-        if (playerStats.isFreeze)
+        if (playerStats.isReSpawn)
         {
+            PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+            playerStats.isReSpawn = false;
         }
+
 
 
     }

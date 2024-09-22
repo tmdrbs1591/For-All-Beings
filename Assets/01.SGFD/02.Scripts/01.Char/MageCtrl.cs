@@ -144,8 +144,14 @@ public class MageCtrl : MonoBehaviourPunCallbacks, IPunObservable
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 25);
             transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 25);
         }
+        if (playerStats.isReSpawn)
+        {
+            PV.RPC("SynchronizationHp", RpcTarget.AllBuffered); // 체력 감소 RPC 호출
+            playerStats.isReSpawn = false;
+        }
 
-       
+
+
 
     }
 
